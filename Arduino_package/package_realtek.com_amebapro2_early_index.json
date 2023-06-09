@@ -18,7 +18,7 @@
           "help": {
             "online": "https://forum.amebaiot.com/"
           },
-          "url": "https://github.com/ambiot/ambpro2_arduino/raw/dev/Arduino_package/release/ameba_pro2-4.0.4-build20230609.tar.gz",
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/dev/Arduino_package/release/ameba_pro2-4.0.4-build20230609.tar.gz",
           "archiveFileName": "ameba_pro2-4.0.4-build20230609.tar.gz",
           "checksum": "SHA-256:645ca985225c0f444811ef3a5ab85a9d74735bf3fd9c021e262c6557d5ce4148",
           "size": "96444857",
