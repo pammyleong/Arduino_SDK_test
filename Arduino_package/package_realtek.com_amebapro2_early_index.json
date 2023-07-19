@@ -13,13 +13,13 @@
 		{
           "name": "Realtek Ameba Boards (32-bit Arm v8M @500MHz)",
           "architecture": "AmebaPro2",
-          "version": "4.0.4.1-build20230719",
+          "version": "4.0.4-1-build20230719",
           "category": "Contributed",
           "help": {
             "online": "https://forum.amebaiot.com/"
           },
-          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.4.1-build20230719.tar.gz",
-          "archiveFileName": "ameba_pro2-4.0.4.1-build20230719.tar.gz",
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.4-1-build20230719.tar.gz",
+          "archiveFileName": "ameba_pro2-4.0.4-1-build20230719.tar.gz",
           "checksum": "SHA-256:0075b3f5e23b6a918b329e65f4323fdbfab4cc36a0a310bd19d9348c328d7966 ",
           "size": "96714903",
           "boards": [
