@@ -203,8 +203,8 @@
               "host": "x86_64-pc-linux-gnu",
               "archiveFileName": "ameba_pro2_tools_linux-1.2.17.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_linux-1.2.17.tar.gz",
-              "checksum": "SHA-256:3c14d521bd5b0a22660df3264f64ef7b501327fe1588872e5b54fc3b178e7e85",
-              "size": "4256223"
+              "checksum": "SHA-256:14d532f6bc60ac741b1fb7c9e7b8511043cf864b567331a8bcfe42cab66d35c5",
+              "size": "4266394"
             },
             {
               "host": "x86_64-apple-darwin",
