@@ -8,7 +8,7 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
@@ -16,24 +16,24 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WiringPrivate_h
-#define WiringPrivate_h
+#ifndef WIRING_PRIVATE_H
+#define WIRING_PRIVATE_H
 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdarg.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 // Includes Atmel CMSIS
-//#include <chip.h>
+// #include <chip.h>
 
 #include "wiring_constants.h"
 
 #ifdef __cplusplus
-} // extern "C"
+}    // extern "C"
 
 #include "HardwareSerial.h"
 

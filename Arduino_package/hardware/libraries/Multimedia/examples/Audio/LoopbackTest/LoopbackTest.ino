@@ -1,7 +1,6 @@
 /*
 
- Example guide:
-
+ Example guide: https://www.amebaiot.com/en/amebapro2-arduino-audio-basic/
  */
 
 #include "WiFi.h"
@@ -18,9 +17,10 @@
 
 AudioSetting configA(PRESET);
 Audio audio;
-StreamIO audioStreamer(1, 1);   // 1 Input Audio -> 1 Output Audio
+StreamIO audioStreamer(1, 1);    // 1 Input Audio -> 1 Output Audio
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     // Configure audio peripheral for audio data format
@@ -33,5 +33,6 @@ void setup() {
     audioStreamer.begin();
 }
 
-void loop() {
+void loop()
+{
 }

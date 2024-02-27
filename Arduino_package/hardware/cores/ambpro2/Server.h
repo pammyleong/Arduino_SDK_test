@@ -17,14 +17,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef server_h
-#define server_h
+#ifndef SERVER_H
+#define SERVER_H
 
 #include "Print.h"
 
-class Server : public Print {
-    public:
-        virtual void begin() = 0;
+class Server: public Print {
+public:
+    virtual void begin() = 0;
 };
 
 #endif

@@ -23,7 +23,7 @@
 #include <string.h>
 #include "LOGUARTClass.h"
 
-//#define LOG_UART_MODIFIABLE_BAUD_RATE 1
+// #define LOG_UART_MODIFIABLE_BAUD_RATE 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,11 +41,11 @@ extern hal_uart_adapter_t log_uart;
 
 RingBuffer rx_buffer0;
 
-//volatile char rc = 0;
+// volatile char rc = 0;
 
-//void uart_send_str(serial_t *sobj, char *pstr)
+// void uart_send_str(serial_t *sobj, char *pstr)
 //{
-//    unsigned int i = 0;
+//     unsigned int i = 0;
 
 //    while (*(pstr + i) != 0) {
 //        serial_putc(sobj, *(pstr + i));
@@ -63,13 +63,13 @@ void arduino_loguart_irq_handler(uint32_t id, SerialIrq event)
         pRxBuffer->store_char(c);
     }
 
-//    if (event == TxIrq && rc != 0) {
-//        uart_send_str(sobj, "\r\n8735b$");
-//        rc = 0;
-//    }
+    // if (event == TxIrq && rc != 0) {
+    //     uart_send_str(sobj, "\r\n8735b$");
+    // rc = 0;
+    // }
 }
 
-LOGUARTClass::LOGUARTClass(int dwIrq, RingBuffer* pRx_buffer)
+LOGUARTClass::LOGUARTClass(int dwIrq, RingBuffer *pRx_buffer)
 {
     _rx_buffer = pRx_buffer;
     _dwIrq = dwIrq;
@@ -79,10 +79,9 @@ LOGUARTClass::LOGUARTClass(int dwIrq, RingBuffer* pRx_buffer)
 // Protected Methods //////////////////////////////////////////////////////////////
 
 // Public Methods //////////////////////////////////////////////////////////////
-//zzw 
+// zzw
 #if 0
-void LOGUARTClass::IrqHandler(void)
-{
+void LOGUARTClass::IrqHandler(void) {
     uint8_t     data = 0;
     BOOL        PullMode = _FALSE;
 
@@ -104,25 +103,28 @@ void LOGUARTClass::IrqHandler(void)
 
 void LOGUARTClass::begin(const uint32_t dwBaudRate, uint8_t serial_config_value)
 {
+    // amb_ard_pin_check_fun(LOG_TX, PIO_UART);
+    // amb_ard_pin_check_fun(LOG_RX, PIO_UART);
+
     if (log_uart_obj.uart_adp.is_inited != 0) {
         serial_free(&log_uart_obj);
     }
     // Log, UART1
-    //serial_init(&log_uart_obj, PF_4, PF_3);
+    // serial_init(&log_uart_obj, PF_4, PF_3);
     ////serial_init(&log_uart_obj, PF_13, PF_12);
     serial_init(&log_uart_obj, PinName(g_APinDescription[LOG_TX].pinname), PinName(g_APinDescription[LOG_RX].pinname));
 
     // serial1, UART0
-    //serial_init(&uart_obj, PA_2, PA_3);
-    //serial_init(&uart_obj, PinName(g_APinDescription[SERIAL1_TX].pinname), PinName(g_APinDescription[SERIAL1_RX].pinname));
+    // serial_init(&uart_obj, PA_2, PA_3);
+    // serial_init(&uart_obj, PinName(g_APinDescription[SERIAL1_TX].pinname), PinName(g_APinDescription[SERIAL1_RX].pinname));
 
     // serial2, UART2
-    //serial_init(&uart_obj, PD_15, PD_16);
-    //serial_init(&uart_obj, PinName(g_APinDescription[SERIAL2_TX].pinname), PinName(g_APinDescription[SERIAL2_RX].pinname));
+    // serial_init(&uart_obj, PD_15, PD_16);
+    // serial_init(&uart_obj, PinName(g_APinDescription[SERIAL2_TX].pinname), PinName(g_APinDescription[SERIAL2_RX].pinname));
 
     // serial3, UART3
-    //serial_init(&uart_obj, PE_1, PE_2);
-    //serial_init(&uart_obj, PinName(g_APinDescription[SERIAL3_TX].pinname), PinName(g_APinDescription[SERIAL3_RX].pinname));
+    // serial_init(&uart_obj, PE_1, PE_2);
+    // serial_init(&uart_obj, PinName(g_APinDescription[SERIAL3_TX].pinname), PinName(g_APinDescription[SERIAL3_RX].pinname));
 
     uint32_t LOGUART_BaudRate = dwBaudRate;
 
@@ -135,114 +137,114 @@ void LOGUARTClass::begin(const uint32_t dwBaudRate, uint8_t serial_config_value)
 #endif
     serial_baud(&log_uart_obj, LOGUART_BaudRate);
 
-    switch(serial_config_value) {
-//      case SERIAL_5N1:
-//          break;
-//      case SERIAL_6N1:
-//          break;
+    switch (serial_config_value) {
+        // case SERIAL_5N1:
+        //     break;
+        // case SERIAL_6N1:
+        //     break;
         case SERIAL_7N1:
             serial_format(&log_uart_obj, 7, ParityNone, 1);
             break;
         case SERIAL_8N1:
             serial_format(&log_uart_obj, 8, ParityNone, 1);
             break;
-//      case SERIAL_5N2:
-//          break;
-//      case SERIAL_6N2:
-//          break;
+        // case SERIAL_5N2:
+        //     break;
+        // case SERIAL_6N2:
+        //     break;
         case SERIAL_7N2:
             serial_format(&log_uart_obj, 7, ParityNone, 2);
             break;
         case SERIAL_8N2:
             serial_format(&log_uart_obj, 8, ParityNone, 2);
             break;
-//      case SERIAL_5E1:
-//          break;
-//      case SERIAL_6E1:
-//          break;
+        // case SERIAL_5E1:
+        //     break;
+        // case SERIAL_6E1:
+        //     break;
         case SERIAL_7E1:
             serial_format(&log_uart_obj, 7, ParityEven, 1);
             break;
         case SERIAL_8E1:
             serial_format(&log_uart_obj, 8, ParityEven, 1);
             break;
-//      case SERIAL_5E2:
-//          break;
-//      case SERIAL_6E2:
-//          break;
+        // case SERIAL_5E2:
+        //     break;
+        // case SERIAL_6E2:
+        //     break;
         case SERIAL_7E2:
             serial_format(&log_uart_obj, 7, ParityEven, 2);
             break;
         case SERIAL_8E2:
             serial_format(&log_uart_obj, 8, ParityEven, 2);
             break;
-//      case SERIAL_5O1:
-//          break;
-//      case SERIAL_6O1:
-//          break;
+        // case SERIAL_5O1:
+        //     break;
+        // case SERIAL_6O1:
+        //     break;
         case SERIAL_7O1:
             serial_format(&log_uart_obj, 7, ParityOdd, 1);
             break;
         case SERIAL_8O1:
             serial_format(&log_uart_obj, 8, ParityOdd, 1);
             break;
-//      case SERIAL_5O2:
-//          break;
-//      case SERIAL_6O2:
-//          break;
+        // case SERIAL_5O2:
+        //     break;
+        // case SERIAL_6O2:
+        //     break;
         case SERIAL_7O2:
             serial_format(&log_uart_obj, 7, ParityOdd, 2);
             break;
         case SERIAL_8O2:
             serial_format(&log_uart_obj, 8, ParityOdd, 2);
             break;
-//      case SERIAL_511:
-//          break;
-//      case SERIAL_611:
-//          break;
+        // case SERIAL_511:
+        //     break;
+        // case SERIAL_611:
+        //     break;
         case SERIAL_711:
             serial_format(&log_uart_obj, 7, ParityForced1, 1);
             break;
         case SERIAL_811:
             serial_format(&log_uart_obj, 8, ParityForced1, 1);
             break;
-//      case SERIAL_512:
-//          break;
-//      case SERIAL_612:
-//          break;
+        // case SERIAL_512:
+        //     break;
+        // case SERIAL_612:
+        //     break;
         case SERIAL_712:
             serial_format(&log_uart_obj, 7, ParityForced1, 2);
             break;
         case SERIAL_812:
             serial_format(&log_uart_obj, 8, ParityForced1, 2);
             break;
-//      case SERIAL_501:
-//          break;
-//      case SERIAL_601:
-//          break;
+        // case SERIAL_501:
+        //     break;
+        // case SERIAL_601:
+        //     break;
         case SERIAL_701:
             serial_format(&log_uart_obj, 7, ParityForced0, 1);
             break;
         case SERIAL_801:
             serial_format(&log_uart_obj, 8, ParityForced0, 1);
             break;
-//      case SERIAL_502:
-//          break;
-//      case SERIAL_602:
-//          break;
+        // case SERIAL_502:
+        //     break;
+        // case SERIAL_602:
+        //     break;
         case SERIAL_702:
             serial_format(&log_uart_obj, 7, ParityForced0, 2);
             break;
         case SERIAL_802:
             serial_format(&log_uart_obj, 8, ParityForced0, 2);
             break;
-      default:
-        serial_format(&log_uart_obj, 8, ParityNone, 1);
+        default:
+            serial_format(&log_uart_obj, 8, ParityNone, 1);
     }
 
     serial_irq_handler(&log_uart_obj, arduino_loguart_irq_handler, (uint32_t)_rx_buffer);
     serial_irq_set(&log_uart_obj, RxIrq, 1);
-    //serial_irq_set(&log_uart_obj, TxIrq, 1);
+    // serial_irq_set(&log_uart_obj, TxIrq, 1);
 }
 
 void LOGUARTClass::end(void)
@@ -259,8 +261,9 @@ int LOGUARTClass::available(void)
 
 int LOGUARTClass::peek(void)
 {
-    if (_rx_buffer->_iHead == _rx_buffer->_iTail)
+    if (_rx_buffer->_iHead == _rx_buffer->_iTail) {
         return -1;
+    }
 
     return _rx_buffer->_aucBuffer[_rx_buffer->_iTail];
 }
@@ -279,13 +282,13 @@ int LOGUARTClass::read(void)
 
 void LOGUARTClass::flush(void)
 {
-// TODO: 
-// while ( serial_writable(&(this->sobj)) != 1 );
-/*
-  // Wait for transmission to complete
-  while ((_pUart->UART_SR & UART_SR_TXRDY) != UART_SR_TXRDY)
-    ;
-*/
+    // TODO:
+    // while ( serial_writable(&(this->sobj)) != 1 );
+    /*
+      // Wait for transmission to complete
+      while ((_pUart->UART_SR & UART_SR_TXRDY) != UART_SR_TXRDY)
+        ;
+    */
 }
 
 size_t LOGUARTClass::write(const uint8_t uc_data)
@@ -294,7 +297,8 @@ size_t LOGUARTClass::write(const uint8_t uc_data)
     return 1;
 }
 
-bool Serial_available() {
+bool Serial_available()
+{
     return Serial.available() > 0;
 }
 

@@ -8,15 +8,16 @@
     If LED was light off, then turn it on.
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-gpio-interrupt/
+ https://www.amebaiot.com/en/amebapro2-arduino-gpio-interrupt/
  */
 
 int button = PUSH_BTN;
-int led    = LED_BUILTIN;
+int led = LED_BUILTIN;
 
 int ledState = 1;
 
-void button_handler(uint32_t id, uint32_t event) {
+void button_handler(uint32_t id, uint32_t event)
+{
     if (ledState == 0) {
         // turn on LED
         ledState = 1;
@@ -28,7 +29,8 @@ void button_handler(uint32_t id, uint32_t event) {
     }
 }
 
-void setup() {
+void setup()
+{
     pinMode(led, OUTPUT);
     digitalWrite(led, ledState);
 
@@ -36,6 +38,7 @@ void setup() {
     digitalSetIrqHandler(button, button_handler);
 }
 
-void loop() {
+void loop()
+{
     delay(1000);
 }

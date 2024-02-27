@@ -1,13 +1,13 @@
 // Multiple Input and Single Output
-#ifndef miso_drv_h
-#define miso_drv_h
+#ifndef MISO_DRV_H
+#define MISO_DRV_H
 
 #include "Arduino.h"
 #include "mmf2_module.h"
 
 uint32_t misoCreate(void);
 void misoDestroy(void *);
-int  misoStart(void *);
+int misoStart(void *);
 void misoStop(void *);
 void misoPause(void *);
 void misoResume(void *);

@@ -8,7 +8,7 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
@@ -22,8 +22,8 @@
 RingBuffer::RingBuffer(void)
 {
     memset((void *)_aucBuffer, 0, SERIAL_BUFFER_SIZE);
-    _iHead=0;
-    _iTail=0;
+    _iHead = 0;
+    _iTail = 0;
 }
 
 void RingBuffer::store_char(uint8_t c)

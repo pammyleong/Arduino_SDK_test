@@ -2,10 +2,9 @@
 #include "errno.h"
 
 extern "C" {
-    #include "wl_definitions.h"
-    #include "wl_types.h"
-    #include "string.h"
-
+#include "wl_definitions.h"
+#include "wl_types.h"
+#include "string.h"
 //    #include "update.h"
 }
 
@@ -13,21 +12,67 @@ extern "C" {
 #include "WiFiServer.h"
 #include "server_drv.h"
 
-WiFiClient::WiFiClient() : _sock(MAX_SOCK_NUM) {
+WiFiClient::WiFiClient():
+    _sock(MAX_SOCK_NUM)
+{
     _is_connected = false;
     recvTimeout = 3000;
 }
 
-WiFiClient::WiFiClient(int sock) {
+WiFiClient::WiFiClient(uint8_t sock)
+{
     _sock = sock;
     if ((sock >= 0) && (sock != 0xFF)) {
-//    if (sock != 0xFF) {
+        //    if (sock != 0xFF) {
         _is_connected = true;
     }
     recvTimeout = 3000;
 }
 
-uint8_t WiFiClient::connected() {
+WiFiClient::WiFiClient(tProtMode portMode):
+    _sock(MAX_SOCK_NUM)
+{
+    _is_connected = false;
+    recvTimeout = 3000;
+    _portMode = portMode;
+}
+
+WiFiClient::WiFiClient(tBlockingMode blockMode):
+    _sock(MAX_SOCK_NUM)
+{
+    _is_connected = false;
+    recvTimeout = 3000;
+    _is_blocked = blockMode;
+}
+
+WiFiClient::WiFiClient(uint8_t sock, tProtMode portMode)
+{
+    _sock = sock;
+    if ((sock >= 0) && (sock != 0xFF)) {
+        _is_connected = true;
+    }
+    recvTimeout = 3000;
+    _portMode = portMode;
+}
+
+WiFiClient::WiFiClient(uint8_t sock, tProtMode portMode, tBlockingMode blockMode)
+{
+    _sock = sock;
+    if ((sock >= 0) && (sock != 0xFF)) {
+        _is_connected = true;
+    }
+    recvTimeout = 3000;
+    _portMode = portMode;
+    _is_blocked = blockMode;
+}
+
+WiFiClient::~WiFiClient()
+{
+    stop();
+}
+
+uint8_t WiFiClient::connected()
+{
     if ((_sock < 0) || (_sock == 0xFF)) {
         _is_connected = false;
         return 0;
@@ -41,7 +86,8 @@ uint8_t WiFiClient::connected() {
     }
 }
 
-int WiFiClient::available() {
+int WiFiClient::available()
+{
     int ret = 0;
     int err;
 
@@ -55,18 +101,20 @@ try_again:
             return 1;
         } else {
             err = clientdrv.getLastErrno(_sock);
-            if (err == EAGAIN) goto try_again;
+            if (err == EAGAIN) {
+                goto try_again;
+            }
             if (err != 0) {
                 _is_connected = false;
             }
             return 0;
         }
     }
-
     return 0;
 }
 
-int WiFiClient::read() {
+int WiFiClient::read()
+{
     int ret;
     int err;
     uint8_t b[1];
@@ -84,11 +132,11 @@ int WiFiClient::read() {
             _is_connected = false;
         }
     }
-
     return ret;
 }
 
-int WiFiClient::read(uint8_t* buf, size_t size) {
+int WiFiClient::read(uint8_t *buf, size_t size)
+{
     int ret;
     int err;
 
@@ -103,7 +151,8 @@ int WiFiClient::read(uint8_t* buf, size_t size) {
     return ret;
 }
 
-int WiFiClient::recv(uint8_t* buf, size_t size) {
+int WiFiClient::recv(uint8_t *buf, size_t size)
+{
     int ret;
     int err;
 
@@ -118,7 +167,8 @@ int WiFiClient::recv(uint8_t* buf, size_t size) {
     return ret;
 }
 
-void WiFiClient::stop() {
+void WiFiClient::stop()
+{
     if (_sock < 0) {
         return;
     }
@@ -127,11 +177,24 @@ void WiFiClient::stop() {
     _sock = -1;
 }
 
-size_t WiFiClient::write(uint8_t b) {
+size_t WiFiClient::write(uint8_t b)
+{
     return write(&b, 1);
 }
 
-size_t WiFiClient::write(const uint8_t *buf, size_t size) {
+// set WiFi client to blocking/non-blocking mode
+void WiFiClient::setBlockingMode()
+{
+    _is_blocked = BLOCKING_MODE;
+}
+
+void WiFiClient::setNonBlockingMode()
+{
+    _is_blocked = NON_BLOCKING_MODE;
+}
+
+size_t WiFiClient::write(const uint8_t *buf, size_t size)
+{
     if (_sock < 0) {
         setWriteError();
         return 0;
@@ -146,45 +209,47 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size) {
         _is_connected = false;
         return 0;
     }
-
     return size;
 }
 
-WiFiClient::operator bool() {
+WiFiClient::operator bool()
+{
     return _sock >= 0;
 }
 
-int WiFiClient::connect(const char* host, uint16_t port) {
+int WiFiClient::connect(const char *host, uint16_t port)
+{
     IPAddress remote_addr;
-//    IPv6Address remote_addr_v6;
+    //    IPv6Address remote_addr_v6;
 
-//    if (getIPv6Status() == 0) {
-        if (WiFi.hostByName(host, remote_addr)) {
-            return connect(remote_addr, port);
-        }
-//    } else {
-        //printf("\n\r[INFO]WiFiClient.cpp: connect hostByNameV6() \n\r");
-//        if (WiFi.hostByNamev6(host, remote_addr_v6)) {
-            //printf("[INFO]WiFiClient.cpp: connect ipv6: %s\n\r", host);
-//            _sock = clientdrv.startClientV6(host, port, TCP_MODE);
-//        } else {
-//        }
-        // whether sock is connected
-        if (_sock < 0) {
-            _is_connected = false;
-            return 0;
-        } else {
-            _is_connected = true;
-            clientdrv.setSockRecvTimeout(_sock, recvTimeout);
-        }
-        return 1;
-//    }
+    //    if (getIPv6Status() == 0) {
+    if (WiFi.hostByName(host, remote_addr)) {
+        return connect(remote_addr, port);
+    }
+    //    } else {
+    // printf("\r\n[INFO] WiFiClient.cpp: connect hostByNameV6() \n");
+    //        if (WiFi.hostByNamev6(host, remote_addr_v6)) {
+    // printf("\r\n[INFO] WiFiClient.cpp: connect ipv6: %s\n", host);
+    //            _sock = clientdrv.startClientV6(host, port, TCP_MODE);
+    //        } else {
+    //        }
+    // whether sock is connected
+    if (_sock < 0) {
+        _is_connected = false;
+        return 0;
+    } else {
+        _is_connected = true;
+        clientdrv.setSockRecvTimeout(_sock, recvTimeout);
+    }
+    return 1;
+    //    }
     return 0;
 }
 
-int WiFiClient::connect(IPAddress ip, uint16_t port) {
+int WiFiClient::connect(IPAddress ip, uint16_t port)
+{
     _is_connected = false;
-    _sock = clientdrv.startClient(ip, port);
+    _sock = clientdrv.startClient(ip, port, _portMode, _is_blocked);
     // whether sock is connected
     if (_sock < 0) {
         _is_connected = false;
@@ -200,21 +265,22 @@ int WiFiClient::connect(IPAddress ip, uint16_t port) {
 int WiFiClient::connectv6(IPv6Address ipv6, uint16_t port) {
     _is_connected = false;
     _sock = clientdrv.startClientv6(ipv6, port);
-    //printf("[INFO]wifiClient.cpp: connectv6 sock value: %x\n\r", _sock);
+    //printf("\r\n[INFO] wifiClient.cpp: connectv6 sock value: %x\n", _sock);
     if (_sock < 0) {
         _is_connected = false;
-        //printf("[INFO]wifiClient.cpp: connectv6 not connected\n\r");
+        //printf("\r\n[INFO] wifiClient.cpp: connectv6 not connected\n");
         return 0;
     } else {
         _is_connected = true;
-        //printf("[INFO]wifiClient.cpp: connectv6 connected\n\r");
+        //printf("\r\n[INFO] wifiClient.cpp: connectv6 connected\n");
         clientdrv.setSockRecvTimeout(_sock, recvTimeout);
     }
     return 1;
 }
 #endif
 
-int WiFiClient::peek() {
+int WiFiClient::peek()
+{
     uint8_t b;
     if (!available()) {
         return -1;
@@ -224,7 +290,8 @@ int WiFiClient::peek() {
     return b;
 }
 
-void WiFiClient::flush() {
+void WiFiClient::flush()
+{
     while (available()) {
         read();
     }
@@ -232,18 +299,18 @@ void WiFiClient::flush() {
 
 // extend API from RTK
 
-int WiFiClient::setRecvTimeout(int timeout) {
+int WiFiClient::setRecvTimeout(int timeout)
+{
     if (connected()) {
         recvTimeout = timeout;
         clientdrv.setSockRecvTimeout(_sock, recvTimeout);
     }
-
     return 0;
 }
 
-int WiFiClient::read(char *buf, size_t size) {
+int WiFiClient::read(char *buf, size_t size)
+{
     read(((uint8_t *)buf), size);
-
     return 0;
 }
 

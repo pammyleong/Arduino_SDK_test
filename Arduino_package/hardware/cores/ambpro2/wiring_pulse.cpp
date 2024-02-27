@@ -8,7 +8,7 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
@@ -45,12 +45,8 @@ extern uint32_t pulseIn(uint32_t ulPin, uint32_t state, uint32_t timeout)
 
     uint32_t start_ticks, cur_ticks;
 
-    if (ulPin > TOTAL_GPIO_PIN_NUM || (g_APinDescription[ulPin].pinname == NC)) return 0;
-
-    /* Handle */
-    if ((g_APinDescription[ulPin].ulPinAttribute & PIO_GPIO) != PIO_GPIO){
-        return 0;
-    }
+    amb_ard_pin_check_name(ulPin);
+    amb_ard_pin_check_fun(ulPin, PIO_GPIO);
 
     pGpio_t = (gpio_t *)gpio_pin_struct[ulPin];
 
@@ -58,20 +54,26 @@ extern uint32_t pulseIn(uint32_t ulPin, uint32_t state, uint32_t timeout)
     start_ticks = us_ticker_read();
     while (gpio_read(pGpio_t) == ((int)state)) {
         cur_ticks = us_ticker_read();
-        if (cur_ticks - start_ticks > timeout) return 0;
+        if (cur_ticks - start_ticks > timeout) {
+            return 0;
+        }
     }
 
     // wait for the pulse to start
     while (gpio_read(pGpio_t) != ((int)state)) {
         cur_ticks = us_ticker_read();
-        if (cur_ticks - start_ticks > timeout) return 0;
+        if (cur_ticks - start_ticks > timeout) {
+            return 0;
+        }
     }
 
     // wait for the pulse to stop
     start_ticks = us_ticker_read();
     while (gpio_read(pGpio_t) == ((int)state)) {
         cur_ticks = us_ticker_read();
-        if (cur_ticks - start_ticks > timeout) return 0;
+        if (cur_ticks - start_ticks > timeout) {
+            return 0;
+        }
     }
 
     cur_ticks = us_ticker_read();
@@ -86,4 +88,3 @@ extern uint32_t pulseIn(uint32_t ulPin, uint32_t state, uint32_t timeout)
 #ifdef __cplusplus
 }
 #endif
-

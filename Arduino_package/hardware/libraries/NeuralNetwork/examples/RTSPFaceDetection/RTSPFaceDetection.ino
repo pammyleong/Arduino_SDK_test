@@ -1,9 +1,7 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-neuralnework-face-detection/
-
- For recommended setting to achieve better video quality, please refer to our Ameba FAQ: https://forum.amebaiot.com/t/ameba-faq/1220
+ https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-face-detection/
 
  NN Model Selection
  Select Neural Network(NN) task and models using modelSelect(nntask, objdetmodel, facedetmodel, facerecogmodel).
@@ -44,14 +42,15 @@ RTSP rtsp;
 StreamIO videoStreamer(1, 1);
 StreamIO videoStreamerNN(1, 1);
 
-char ssid[] = "yourNetwork";    // your network SSID (name)
-char pass[] = "Password";       // your network password
+char ssid[] = "Network_SSID";    // your network SSID (name)
+char pass[] = "Password";        // your network password
 int status = WL_IDLE_STATUS;
 
 IPAddress ip;
-int rtsp_portnum; 
+int rtsp_portnum;
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     // attempt to connect to Wifi network:
@@ -67,7 +66,7 @@ void setup() {
 
     // Configure camera video channels with video format information
     // Adjust the bitrate based on your WiFi network quality
-    config.setBitrate(2 * 1024 * 1024);     // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
+    config.setBitrate(2 * 1024 * 1024);    // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
     Camera.configVideoChannel(CHANNEL, config);
     Camera.configVideoChannel(CHANNELNN, configNN);
     Camera.videoInit();
@@ -111,12 +110,16 @@ void setup() {
     OSD.begin();
 }
 
-void loop() {
+void loop()
+{
     // Do nothing
 }
 
 // User callback function for post processing of face detection results
-void FDPostProcess(std::vector<FaceDetectionResult> results) {
+void FDPostProcess(std::vector<FaceDetectionResult> results)
+{
+    int count = 0;
+
     uint16_t im_h = config.height();
     uint16_t im_w = config.width();
 
@@ -131,7 +134,7 @@ void FDPostProcess(std::vector<FaceDetectionResult> results) {
     OSD.createBitmap(CHANNEL);
 
     if (facedet.getResultCount() > 0) {
-        for (uint32_t i = 0; i < facedet.getResultCount(); i++) {
+        for (int i = 0; i < facedet.getResultCount(); i++) {
             FaceDetectionResult item = results[i];
             // Result coordinates are floats ranging from 0.00 to 1.00
             // Multiply with RTSP resolution to get coordinates in pixels
@@ -141,7 +144,7 @@ void FDPostProcess(std::vector<FaceDetectionResult> results) {
             int ymax = (int)(item.yMax() * im_h);
 
             // Draw boundary box
-            printf("Face %d confidence %d:\t%d %d %d %d\n\r", i, item.score(), xmin, xmax, ymin, ymax);
+            printf("Face %ld confidence %d:\t%d %d %d %d\n\r", i, item.score(), xmin, xmax, ymin, ymax);
             OSD.drawRect(CHANNEL, xmin, ymin, xmax, ymax, 3, OSD_COLOR_WHITE);
 
             // Print identification text above boundary box
@@ -154,8 +157,14 @@ void FDPostProcess(std::vector<FaceDetectionResult> results) {
                 int x = (int)(item.xFeature(j) * im_w);
                 int y = (int)(item.yFeature(j) * im_h);
                 OSD.drawPoint(CHANNEL, x, y, 8, OSD_COLOR_RED);
+                count++;
+                if (count == MAX_FACE_DET) {
+                    goto OSDUpdate;
+                }
             }
         }
     }
+
+OSDUpdate:
     OSD.update(CHANNEL);
 }

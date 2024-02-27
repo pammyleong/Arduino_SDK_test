@@ -6,8 +6,7 @@
 
 #define MAX_FILENAME_LEN 255
 
-class File : public Stream {
-
+class File: public Stream {
 public:
     File(void);
     File(const char *filename);
@@ -34,13 +33,13 @@ public:
     operator bool();
 
     bool isOpen(void);
-    const char* name(void);
+    const char *name(void);
 
     friend class AmebaFatFS;
 
 private:
-    FIL* _file;
-    char _name[MAX_FILENAME_LEN+1];
+    FIL *_file;
+    char _name[MAX_FILENAME_LEN + 1];
 };
 
 #endif

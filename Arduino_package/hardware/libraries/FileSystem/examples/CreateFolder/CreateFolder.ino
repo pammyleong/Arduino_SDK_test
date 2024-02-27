@@ -1,5 +1,8 @@
 /*
  This sketch shows how to create a folder and open a file under it.
+
+ Example guide:
+ https://www.amebaiot.com/en/amebapro2-arduino-filesystem-simple-application/
  */
 
 #include "AmebaFatFS.h"
@@ -10,7 +13,8 @@ char write_content[] = "hello world!";
 
 AmebaFatFS fs;
 
-void setup() {
+void setup()
+{
     char buf[128];
     char path[128];
 
@@ -40,6 +44,7 @@ void setup() {
     fs.end();
 }
 
-void loop() {
+void loop()
+{
     delay(1000);
 }

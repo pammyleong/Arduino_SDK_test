@@ -1,9 +1,7 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-neuralnework-object-detection/
-
- For recommended setting to achieve better video quality, please refer to our Ameba FAQ: https://forum.amebaiot.com/t/ameba-faq/1220
+ https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-object-detection/
 
  NN Model Selection
  Select Neural Network(NN) task and models using modelSelect(nntask, objdetmodel, facedetmodel, facerecogmodel).
@@ -31,8 +29,8 @@
 #include "VideoStreamOverlay.h"
 #include "ObjectClassList.h"
 
-#define CHANNEL 0
-#define CHANNELNN 3 
+#define CHANNEL   0
+#define CHANNELNN 3
 
 // Lower resolution for NN processing
 #define NNWIDTH  576
@@ -45,14 +43,15 @@ RTSP rtsp;
 StreamIO videoStreamer(1, 1);
 StreamIO videoStreamerNN(1, 1);
 
-char ssid[] = "yourNetwork";    // your network SSID (name)
-char pass[] = "Password";       // your network password
+char ssid[] = "Network_SSID";    // your network SSID (name)
+char pass[] = "Password";        // your network password
 int status = WL_IDLE_STATUS;
 
 IPAddress ip;
 int rtsp_portnum;
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     // attempt to connect to Wifi network:
@@ -68,7 +67,7 @@ void setup() {
 
     // Configure camera video channels with video format information
     // Adjust the bitrate based on your WiFi network quality
-    config.setBitrate(2 * 1024 * 1024);     // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
+    config.setBitrate(2 * 1024 * 1024);    // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
     Camera.configVideoChannel(CHANNEL, config);
     Camera.configVideoChannel(CHANNELNN, configNN);
     Camera.videoInit();
@@ -111,7 +110,8 @@ void setup() {
     OSD.begin();
 }
 
-void loop() {
+void loop()
+{
     std::vector<ObjectDetectionResult> results = ObjDet.getResult();
 
     uint16_t im_h = config.height();
@@ -128,7 +128,7 @@ void loop() {
     OSD.createBitmap(CHANNEL);
 
     if (ObjDet.getResultCount() > 0) {
-        for (uint32_t i = 0; i < ObjDet.getResultCount(); i++) {
+        for (int i = 0; i < ObjDet.getResultCount(); i++) {
             int obj_type = results[i].type();
             if (itemList[obj_type].filter) {    // check if item should be ignored
 

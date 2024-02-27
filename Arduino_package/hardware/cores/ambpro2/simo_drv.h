@@ -1,13 +1,13 @@
 // Single Input and Multiple Output
-#ifndef simo_drv_h
-#define simo_drv_h
+#ifndef SIMO_DRV_H
+#define SIMO_DRV_H
 
 #include "Arduino.h"
 #include "mmf2_module.h"
 
 uint32_t simoCreate(void);
 void simoDestroy(void *);
-int  simoStart(void *);
+int simoStart(void *);
 void simoStop(void *);
 void simoPause(void *);
 void simoResume(void *);

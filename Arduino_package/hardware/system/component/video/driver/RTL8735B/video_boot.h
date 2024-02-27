@@ -4,15 +4,33 @@
 #include <stdint.h>
 #include "fw_img_export.h"
 
-#define ISP_COMMON_BUF  900*1024
-#define ENC_COMMON_BUF  500*1024
-#define ENABLE_OSD_BUF  900*1024
+// USE_NEW_HEAP_ALLOCATE
+#define ENABLE_HDR_MD_BUF   600*1024
+
+#define ISP_COMMON_MAIN_BUF         800*1024
+#define ISP_COMMON_MAIN_SW_MARGIN   40*1024
+#define ISP_COMMON_EXTRA_BUF        100*1024
+#define ISP_COMMON_EXTRA_SW_MARGIN  50*1024
+
+#define ENC_COMMON_MAIN_BUF         859*1024
+#define ENC_COMMON_MAIN_SW_MARGIN   799*1024
+#define ENC_COMMON_EXTRA_BUF        391*1024
+#define ENC_COMMON_EXTRA_SW_MARGIN  331*1024
+
+#define JPG_COMMON_MAIN_BUF     27*1024
+#define JPG_COMMON_EXTRA_BUF    27*1024
+#define JPG_BUF_SIZE            5 //picture
+
+// USE_OLD_HEAP_ALLOCATE
 #define ENABLE_MD_BUF   500*1024
 #define ENABLE_HDR_BUF  500*1024
 
-#define ISP_CREATE_BUF 200*1024
-#define ENC_CREATE_BUF 420*1024
+#define ISP_CREATE_BUF 750*1024
+#define ENC_CREATE_BUF (859+59)*1024
+
+//SNAPSHOT AND OSD
 #define SNAPSHOT_BUF   300*1024
+#define OSD_CREATE_BUF (10*1024+24*480) //default 24 blocks, each one require 480 bytes
 
 #define V1_ENC_BUF_SIZE  8 //sec
 #define V2_ENC_BUF_SIZE  8 //sec
@@ -36,6 +54,8 @@
 #define FCS_TALBE_NUM  11 //The parameter can't be changed
 
 #define VIDEO_BOOT_META_USER_SIZE 0X40
+
+#define VIDEO_BOOT_META_REV_BUF  0x1000
 
 typedef struct video_boot_param_s {
 	uint32_t stream_id;
@@ -66,6 +86,7 @@ typedef struct video_boot_param_s {
 	uint32_t cavlc;
 	uint32_t minQp;
 	uint32_t maxQp;
+	uint32_t fcs_vui_disable;
 } video_boot_params_t;
 #define PRIVATE_MAX_NUM 5
 #define PRIVATE_MASK_GRID 0X00
@@ -138,7 +159,7 @@ typedef struct video_boot_stream_cfg {
 	uint32_t fcs_isp_awb_enable;
 	uint32_t fcs_isp_awb_init_rgain;
 	uint32_t fcs_isp_awb_init_bgain;
-	uint32_t fcs_isp_init_daynight_mode;//0 night mode ; 1 day mode
+	uint32_t fcs_isp_init_daynight_mode;//0 day mode ; 1 night mode
 	uint32_t fcs_isp_gray_mode;//0 color mode ; 1 gray mode
 	uint32_t fcs_lookup_count;
 	uint32_t fcs_als_thr[FCS_TALBE_NUM];
@@ -156,6 +177,8 @@ typedef struct video_boot_stream_cfg {
 	uint32_t meta_enable;//
 	uint32_t meta_size;//enalbe the meta size for
 	video_boot_isp_initial_items_t init_isp_items;
+	uint32_t fcs_meta_offset;
+	uint32_t fcs_meta_total_size;
 } video_boot_stream_t;
 #endif
 

@@ -1,9 +1,7 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-video-mp4/
-
- For recommended setting to achieve better video quality, please refer to our Ameba FAQ: https://forum.amebaiot.com/t/ameba-faq/1220
+ https://www.amebaiot.com/en/amebapro2-arduino-video-mp4/
  */
 
 #include "StreamIO.h"
@@ -29,10 +27,11 @@ Audio audio;
 AAC aac;
 MP4Recording mp4_1;
 MP4Recording mp4_2;
-StreamIO audioStreamer(1, 1);  // 1 Input Audio -> 1 Output AAC
-StreamIO avMixStreamer(3, 2);  // 3 Input Video1 + Video2 + Audio -> 2 Output MP4_1 + MP4_2
+StreamIO audioStreamer(1, 1);    // 1 Input Audio -> 1 Output AAC
+StreamIO avMixStreamer(3, 2);    // 3 Input Video1 + Video2 + Audio -> 2 Output MP4_1 + MP4_2
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     // Configure both camera video channels with corresponding video format information
@@ -89,11 +88,13 @@ void setup() {
     printInfo();
 }
 
-void loop() {
+void loop()
+{
     // do nothing
 }
 
-void printInfo(void) {
+void printInfo(void)
+{
     Serial.println("------------------------------");
     Serial.println("- Summary of Streaming -");
     Serial.println("------------------------------");

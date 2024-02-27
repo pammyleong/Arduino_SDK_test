@@ -7,7 +7,7 @@
  by Realtek SG
 
  Example guide:
- 
+ https://www.amebaiot.com/en/amebapro2-arduino-concurrent/
 */
 
 #include <WiFi.h>
@@ -15,7 +15,7 @@
 // Set if user wants to key in ssid/pwd manually during operation
 // #define MANUAL_INPUT
 
-#ifdef MANUAL_INPUT  // Initialise ssid string, pwd string, and serial_in object
+#ifdef MANUAL_INPUT    // Initialise ssid string, pwd string, and serial_in object
 // Initialise strings
 String str_ssid, str_pass, str_apssid, str_appass, str_channel;
 #endif
@@ -28,80 +28,90 @@ String str_ssid, str_pass, str_apssid, str_appass, str_channel;
 // Emoji characters can be converted into UTF-8 at https://mothereff.in/utf-8
 // char ssid[] = "\xe2\x9c\x8c\xef\xb8\x8f Ameba \xe2\x9c\x8c\xef\xb8\x8f";
 
-char ssid[] = "Network_SSID";       // your network SSID (name)
-char pass[] = "Password";           // your network password
+char ssid[] = "Network_SSID";    // your network SSID (name)
+char pass[] = "Password";        // your network password
 
-char apssid[] = "AP_Network_SSID";  // Set the AP SSID
-char appass[] = "AP_Password";      // Set the AP password
-char channel[] = "1";               // Set the AP channel
-int status = WL_IDLE_STATUS;        // Indicater of Wifi status
-int ssid_status = 0;                // Set SSID status, 1 hidden, 0 not hidden
+char apssid[] = "AP_Network_SSID";    // Set the AP SSID
+char appass[] = "AP_Password";        // Set the AP password
+char channel[] = "1";                 // Set the AP channel
+int status = WL_IDLE_STATUS;          // Indicator of Wifi status
+int ssid_status = 0;                  // Set SSID status, 1 hidden, 0 not hidden
 
-void setup() {
+void setup()
+{
     // Initialize serial and wait for port to open:
     Serial.begin(115200);
     while (!Serial) {
-        ; // wait for serial port to connect. Needed for native USB port only
+        ;    // wait for serial port to connect. Needed for native USB port only
     }
 
     while (status != WL_CONNECTED) {
 #ifdef MANUAL_INPUT
         Serial.println("Enter your ssid:");
-        while (Serial.available() == 0) {}
+        while (Serial.available() == 0) {
+        }
         str_ssid = Serial.readString();
         str_ssid.trim();
         Serial.print("SSID entered: ");
         Serial.println(str_ssid);
 
         Serial.println("Enter your password:");
-        while (Serial.available() == 0) {}
+        while (Serial.available() == 0) {
+        }
         str_pass = Serial.readString();
         str_pass.trim();
-            if (str_pass.length() != 0) {
-                while (str_pass.length() < 8) {
-                    Serial.println("Password cannot be less than 8 characters! Try again");
-                    while (Serial.available() == 0) {}
-                    str_pass = Serial.readString();
-                    str_pass.trim();
+        if (str_pass.length() != 0) {
+            while (str_pass.length() < 8) {
+                Serial.println("Password cannot be less than 8 characters! Try again");
+                while (Serial.available() == 0) {
                 }
-                    Serial.print("Password entered: ");
-                    Serial.println(str_pass);
+                str_pass = Serial.readString();
+                str_pass.trim();
             }
+            Serial.print("Password entered: ");
+            Serial.println(str_pass);
+        }
 
         Serial.println("Enter your AP ssid:");
-        while (Serial.available() == 0) {}
+        while (Serial.available() == 0) {
+        }
         str_apssid = Serial.readString();
         str_apssid.trim();
         Serial.print("SSID entered: ");
         Serial.println(str_apssid);
 
         Serial.println("Enter your AP password:");
-        while (Serial.available() == 0) {}
+        while (Serial.available() == 0) {
+        }
         str_appass = Serial.readString();
         str_appass.trim();
-            if (str_appass.length() != 0) {
-                while (str_appass.length() < 8) {
-                    Serial.println("Password cannot be less than 8 characters! Try again");
-                    while (Serial.available() == 0) {}
-                    str_appass = Serial.readString();
-                    str_appass.trim();
+        if (str_appass.length() != 0) {
+            while (str_appass.length() < 8) {
+                Serial.println("Password cannot be less than 8 characters! Try again");
+                while (Serial.available() == 0) {
                 }
-                    Serial.print("Password entered: ");
-                    Serial.println(str_appass);
+                str_appass = Serial.readString();
+                str_appass.trim();
             }
+            Serial.print("Password entered: ");
+            Serial.println(str_appass);
+        }
         Serial.println("Enter your channel number:");
-        while (Serial.available() == 0) {}
-            str_channel = Serial.readString();
-            int checker = str_channel.toInt();
-            while(str_channel != (String(checker))){
-                Serial.println("channel should be a number!");
-                while (Serial.available() == 0) {}
-                str_channel = Serial.readString();
-                checker = str_channel.toInt();
+        int checker = 0;
+
+        while (1) {
+            while (Serial.available() == 0) {
             }
+            str_channel = Serial.readString();
             str_channel.trim();
-            Serial.print("channel entered: ");
-            Serial.println(str_channel);
+            checker = str_channel.toInt();
+            if (str_channel == (String(checker))) {
+                break;
+            }
+            Serial.println("channel should be a number!");
+        }
+        Serial.print("channel entered: ");
+        Serial.println(str_channel);
 #endif
 
 #ifndef MANUAL_INPUT
@@ -112,7 +122,7 @@ void setup() {
 #else
         char apssid_cust[str_apssid.length() + 1];
         char appass_cust[str_appass.length() + 1];
-        char channel_cust[str_channel.length()+ 1];
+        char channel_cust[str_channel.length() + 1];
         strcpy(apssid_cust, str_apssid.c_str());
         strcpy(appass_cust, str_appass.c_str());
         strcpy(channel_cust, str_channel.c_str());
@@ -128,8 +138,8 @@ void setup() {
 #endif
         delay(10000);
     }
-    //AP mode started and connected to network
-    //print out the data
+    // AP mode started and connected to network
+    // print out the data
     Serial.println("AP mode already started");
     printWifiData(1);
     Serial.println("Connected to the network");
@@ -137,13 +147,15 @@ void setup() {
     printCurrentNet();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+    // put your main code here, to run repeatedly:
     delay(10000);
     printCurrentNet();
 }
 
-void printWifiData(int wlan_interface) {
+void printWifiData(int wlan_interface)
+{
     // print your WiFi IP address:
     IPAddress ip = WiFi.localIP(wlan_interface);
     Serial.print("IP Address: ");
@@ -161,7 +173,8 @@ void printWifiData(int wlan_interface) {
     Serial.println();
 }
 
-void printCurrentNet() {
+void printCurrentNet()
+{
     // print the SSID of the Network
     Serial.print("SSID: ");
     Serial.println(WiFi.SSID());

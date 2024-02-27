@@ -1,13 +1,13 @@
 // Multiple Input and Multiple Output
-#ifndef mimo_drv_h
-#define mimo_drv_h
+#ifndef MIMO_DRV_H
+#define MIMO_DRV_H
 
 #include "Arduino.h"
 #include "mmf2_module.h"
 
 uint32_t mimoCreate(void);
 void mimoDestroy(void *);
-int  mimoStart(void *);
+int mimoStart(void *);
 void mimoStop(void *);
 void mimoPause(void *);
 void mimoResume(void *);

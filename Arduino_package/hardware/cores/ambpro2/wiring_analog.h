@@ -8,7 +8,7 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
@@ -26,8 +26,7 @@ extern "C" {
 /*
  * \brief SAM3 products have only one reference for ADC
  */
-typedef enum _eAnalogReference
-{
+typedef enum _eAnalogReference {
     AR_DEFAULT,
 } eAnalogReference;
 
@@ -75,6 +74,8 @@ extern void analogOutputInit(void);
 extern void noTone(uint32_t ulPin);
 
 extern void analogWritePeriod(int us);
+
+extern void analogSet(float gain, float offset);
 
 #ifdef __cplusplus
 }

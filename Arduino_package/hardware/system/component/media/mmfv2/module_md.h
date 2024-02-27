@@ -22,6 +22,7 @@
 #define CMD_MD_SET_DETECT_INTERVAL		MM_MODULE_CMD(0x0C)
 #define CMD_MD_SET_BGMODE				MM_MODULE_CMD(0x0D)
 #define CMD_MD_SET_STATUS				MM_MODULE_CMD(0x0E)
+#define CMD_MD_SHOW_CONFIG				MM_MODULE_CMD(0x0F)
 
 #define CMD_MD_SET_MD_SENSITIVITY      	MM_MODULE_CMD(0x10)
 #define CMD_MD_GET_MD_SENSITIVITY      	MM_MODULE_CMD(0x11)
@@ -34,9 +35,15 @@ typedef void (*md_disp_postprcess)(void *);
 
 typedef struct md_ctx_s {
 	void *parent;
+
+	int en_ae_stable;
+	eip_ae_stable_t ae_stable;
+
 	md_param_t params;
 	md_config_t md_config;
 	md_context_t *motion_detect_ctx;
+	md_result_t md_result;
+	eip_Y_data_t Y_data;
 	md_disp_postprcess disp_postproc;
 	unsigned long md_time0;
 	bool md_out_en;

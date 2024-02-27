@@ -1,7 +1,7 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-ble-wifi-configuration/
+ https://www.amebaiot.com/en/amebapro2-arduino-ble-wifi-configuration/
  */
 
 #include "BLEDevice.h"
@@ -9,7 +9,8 @@
 
 BLEWifiConfigService configService;
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     BLE.init();
@@ -28,6 +29,7 @@ void setup() {
     BLE.configAdvert()->startAdv();
 }
 
-void loop() {
+void loop()
+{
     delay(1000);
 }

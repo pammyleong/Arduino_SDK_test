@@ -1,9 +1,7 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-neuralnework-object-detection/
-
- For recommended setting to achieve better video quality, please refer to our Ameba FAQ: https://forum.amebaiot.com/t/ameba-faq/1220
+ https://www.amebaiot.com/en/amebapro2-arduino-neuralnework-object-detection/
 
  NN Model Selection
  Select Neural Network(NN) task and models using .modelSelect(nntask, objdetmodel, facedetmodel, facerecogmodel).
@@ -31,11 +29,11 @@
 #include "VideoStreamOverlay.h"
 #include "ObjectClassList.h"
 
-#define CHANNEL 0
+#define CHANNEL   0
 #define CHANNELNN 3
 
 // Lower resolution for NN processing
-#define NNWIDTH 576
+#define NNWIDTH  576
 #define NNHEIGHT 320
 
 VideoSetting config(VIDEO_FHD, 30, VIDEO_H264, 0);
@@ -45,14 +43,15 @@ RTSP rtsp;
 StreamIO videoStreamer(1, 1);
 StreamIO videoStreamerNN(1, 1);
 
-char ssid[] = "yourNetwork";    // your network SSID (name)
-char pass[] = "Password";       // your network password
+char ssid[] = "Network_SSID";    // your network SSID (name)
+char pass[] = "Password";        // your network password
 int status = WL_IDLE_STATUS;
 
 IPAddress ip;
-int rtsp_portnum; 
+int rtsp_portnum;
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
 
     // attempt to connect to Wifi network:
@@ -65,10 +64,10 @@ void setup() {
         delay(2000);
     }
     ip = WiFi.localIP();
-    
+
     // Configure camera video channels with video format information
     // Adjust the bitrate based on your WiFi network quality
-    config.setBitrate(2 * 1024 * 1024);     // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
+    config.setBitrate(2 * 1024 * 1024);    // Recommend to use 2Mbps for RTSP streaming to prevent network congestion
     Camera.configVideoChannel(CHANNEL, config);
     Camera.configVideoChannel(CHANNELNN, configNN);
     Camera.videoInit();
@@ -84,7 +83,7 @@ void setup() {
     ObjDet.setResultCallback(ODPostProcess);
     ObjDet.modelSelect(OBJECT_DETECTION, DEFAULT_YOLOV4TINY, NA_MODEL, NA_MODEL);
     ObjDet.begin();
-    
+
     // Configure StreamIO object to stream data from video channel to RTSP
     videoStreamer.registerInput(Camera.getStream(CHANNEL));
     videoStreamer.registerOutput(rtsp);
@@ -112,12 +111,14 @@ void setup() {
     OSD.begin();
 }
 
-void loop() {
+void loop()
+{
     // Do nothing
 }
 
 // User callback function for post processing of object detection results
-void ODPostProcess(std::vector<ObjectDetectionResult> results) {
+void ODPostProcess(std::vector<ObjectDetectionResult> results)
+{
     uint16_t im_h = config.height();
     uint16_t im_w = config.width();
 
@@ -132,7 +133,7 @@ void ODPostProcess(std::vector<ObjectDetectionResult> results) {
     OSD.createBitmap(CHANNEL);
 
     if (ObjDet.getResultCount() > 0) {
-        for (uint32_t i = 0; i < ObjDet.getResultCount(); i++) {
+        for (int i = 0; i < ObjDet.getResultCount(); i++) {
             int obj_type = results[i].type();
             if (itemList[obj_type].filter) {    // check if item should be ignored
 

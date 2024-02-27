@@ -11,22 +11,24 @@
  This example code is in the public domain.
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-i2c-2/
+ https://www.amebaiot.com/en/amebapro2-arduino-i2c-2/
  */
 
 #include <Wire.h>
 
-void setup() {
-    Wire.begin();        // join i2c bus (address optional for master)
-    Serial.begin(115200);  // start serial for output
+void setup()
+{
+    Wire.begin();            // join i2c bus (address optional for master)
+    Serial.begin(115200);    // start serial for output
 }
 
-void loop() {
-    Wire.requestFrom(8, 6);     // request 6 bytes from slave device #8
+void loop()
+{
+    Wire.requestFrom(8, 6);    // request 6 bytes from slave device #8
 
-    while (Wire.available()) {  // slave may send less than requested
-        char c = Wire.read();   // receive a byte as character
-        Serial.print(c);        // print the character
+    while (Wire.available()) {    // slave may send less than requested
+        char c = Wire.read();     // receive a byte as character
+        Serial.print(c);          // print the character
     }
 
     delay(500);

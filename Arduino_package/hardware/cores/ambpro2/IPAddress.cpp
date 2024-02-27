@@ -24,10 +24,13 @@
 #include <stdio.h>
 #include <WString.h>
 
-//NeoJou
+// NeoJou
 extern "C" {
-#define _LONG_CALL_     __attribute__ ((long_call))
-extern _LONG_CALL_ uint32_t DiagPrintf(const char *fmt, ...);
+#ifdef _LONG_CALL_
+#undef _LONG_CALL_
+#endif
+#define _LONG_CALL_ __attribute__((long_call))
+extern _LONG_CALL_ uint32_t DiagPrintf(const char* fmt, ...);
 }
 
 IPAddress::IPAddress()
@@ -48,12 +51,12 @@ IPAddress::IPAddress(uint32_t address)
     _address.dword = address;
 }
 
-IPAddress::IPAddress(const uint8_t *address)
+IPAddress::IPAddress(const uint8_t* address)
 {
     memcpy(_address.bytes, address, sizeof(_address.bytes));
 }
 
-IPAddress& IPAddress::operator=(const uint8_t *address)
+IPAddress& IPAddress::operator=(const uint8_t* address)
 {
     memcpy(_address.bytes, address, sizeof(_address.bytes));
     return *this;

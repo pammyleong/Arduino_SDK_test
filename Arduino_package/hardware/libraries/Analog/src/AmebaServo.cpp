@@ -29,7 +29,6 @@ extern "C" {
 #include "pwmout_api.h"
 
 extern void *gpio_pin_struct[];
-
 }
 #endif
 
@@ -45,6 +44,8 @@ uint8_t AmebaServo::attach(int pin)
 
 uint8_t AmebaServo::attach(int pin, int min, int max)
 {
+    amb_ard_pin_check_fun(pin, PIO_PWM);
+
     pinRemoveMode(pin);
     analogWrite(pin, 0);
     pwmout_period_us(((pwmout_t *)gpio_pin_struct[pin]), 20000);
@@ -64,10 +65,13 @@ void AmebaServo::detach()
 
 void AmebaServo::write(int value)
 {
-    if(value < MIN_PULSE_WIDTH)
-    {  // treat values less than 544 as angles in degrees (valid values in microseconds are handled as microseconds)
-        if(value < 0) value = 0;
-        if(value > 180) value = 180;
+    if (value < MIN_PULSE_WIDTH) {    // treat values less than 544 as angles in degrees (valid values in microseconds are handled as microseconds)
+        if (value < 0) {
+            value = 0;
+        }
+        if (value > 180) {
+            value = 180;
+        }
         value = (max - min) * value / 180 + min;
     }
 
@@ -77,15 +81,20 @@ void AmebaServo::write(int value)
 
 void AmebaServo::writeMicroseconds(int value)
 {
-    if (value < (int)min) value = min;
-    if (value > (int)max) value = max;
+    if (value < (int)min) {
+        value = min;
+    }
+    if (value > (int)max) {
+        value = max;
+    }
 
     currentWidth = value;
     pwmout_write(((pwmout_t *)gpio_pin_struct[servoPin]), (value * 1.0 / 20000));
 }
 
-int AmebaServo::read() // return the value as degrees
+int AmebaServo::read()
 {
+    // return the value as degrees
     return (180 * (currentWidth - min) / (max - min));
 }
 

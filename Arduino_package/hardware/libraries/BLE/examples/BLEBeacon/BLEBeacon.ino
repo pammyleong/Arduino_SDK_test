@@ -1,27 +1,28 @@
 /*
 
  Example guide:
- https://www.amebaiot.com/en/amebapro2-amb82-mini-arduino-ble-beacon/
+ https://www.amebaiot.com/en/amebapro2-arduino-ble-beacon/
  */
 
 #include "BLEDevice.h"
 #include "BLEBeacon.h"
 
 iBeacon beacon;
-//altBeacon beacon;
+// altBeacon beacon;
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
 #define UUID "00112233-4455-6677-8899-AABBCCDDEEFF"
 
 
-void setup() {
+void setup()
+{
     // For all possible BLE manufacturer IDs, refer to:
     // www.bluetooth.com/specifications/assigned-numbers/company-identifiers/
-    beacon.setManufacturerId(0x004C); // MfgId (0x004C: Apple Inc)
-    beacon.setRSSI(0xBF);             // rssi: (0xBF: -65 dBm)
-    beacon.setMajor(0x007B);          // 123
-    beacon.setMinor(0x01C8);          // 456
+    beacon.setManufacturerId(0x004C);    // MfgId (0x004C: Apple Inc)
+    beacon.setRSSI(0xBF);                // rssi: (0xBF: -65 dBm)
+    beacon.setMajor(0x007B);             // 123
+    beacon.setMinor(0x01C8);             // 456
     beacon.setUUID(UUID);
 
     BLE.init();
@@ -31,6 +32,7 @@ void setup() {
     BLE.beginPeripheral();
 }
 
-void loop() {
+void loop()
+{
     delay(1000);
 }

@@ -13,13 +13,14 @@ extern "C" {
 }
 #endif
 
-StreamIO::StreamIO(uint8_t numInput, uint8_t numOutput) {
+StreamIO::StreamIO(uint8_t numInput, uint8_t numOutput)
+{
     if (numInput > 4) {
-        printf("StreamIO too many inputs. Max 4 inputs.\r\n");
+        printf("\r\n[ERROR] StreamIO too many inputs. Max 4 inputs.\n");
         return;
     }
     if (numOutput > 4) {
-        printf("StreamIO too many outputs. Max 4 outputs.\r\n");
+        printf("\r\n[ERROR] StreamIO too many outputs. Max 4 outputs.\n");
         return;
     }
     if (numInput > 1) {
@@ -96,33 +97,39 @@ StreamIO::StreamIO(uint8_t numInput, uint8_t numOutput) {
             _p_setTaskPriority = &sisoSetTaskPriority;
         }
     }
-    _p_linker = (void *)_p_create();
+    _p_linker = (void*)_p_create();
 }
 
-StreamIO::~StreamIO(void) {
+StreamIO::~StreamIO(void)
+{
     end();
     _p_destroy(_p_linker);
 }
 
-int  StreamIO::begin(void) {
+int StreamIO::begin(void)
+{
     return _p_start(_p_linker);
 }
 
-void StreamIO::end(void) {
+void StreamIO::end(void)
+{
     _p_stop(_p_linker);
 }
 
-void StreamIO::pause(void) {
+void StreamIO::pause(void)
+{
     _p_pause(_p_linker);
 }
 
-void StreamIO::resume(void) {
+void StreamIO::resume(void)
+{
     _p_resume(_p_linker);
 }
 
-void StreamIO::registerInput(const MMFModule& module) {
+void StreamIO::registerInput(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Input not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Input not initialized correctly!\n");
         return;
     }
     if (_p_registerInput != NULL) {
@@ -132,9 +139,10 @@ void StreamIO::registerInput(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerInput1(const MMFModule& module) {
+void StreamIO::registerInput1(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Input not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Input not initialized correctly!\n");
         return;
     }
     if (_p_registerInput1 != NULL) {
@@ -144,9 +152,10 @@ void StreamIO::registerInput1(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerInput2(const MMFModule& module) {
+void StreamIO::registerInput2(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Input not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Input not initialized correctly!\n");
         return;
     }
     if (_p_registerInput2 != NULL) {
@@ -156,9 +165,10 @@ void StreamIO::registerInput2(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerInput3(const MMFModule& module) {
+void StreamIO::registerInput3(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Input not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Input not initialized correctly!\n");
         return;
     }
     if (_p_registerInput3 != NULL) {
@@ -168,9 +178,10 @@ void StreamIO::registerInput3(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerOutput(const MMFModule& module) {
+void StreamIO::registerOutput(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Output not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Output not initialized correctly!\n");
         return;
     }
     if (_p_registerOutput != NULL) {
@@ -180,9 +191,10 @@ void StreamIO::registerOutput(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerOutput1(const MMFModule& module) {
+void StreamIO::registerOutput1(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Output not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Output not initialized correctly!\n");
         return;
     }
     if (_p_registerOutput1 != NULL) {
@@ -192,9 +204,10 @@ void StreamIO::registerOutput1(const MMFModule& module) {
     }
 }
 
-void StreamIO::registerOutput2(const MMFModule& module) {
+void StreamIO::registerOutput2(const MMFModule& module)
+{
     if (module._p_mmf_context == NULL) {
-        printf("Output not initialized correctly!\r\n");
+        printf("\r\n[ERROR] Output not initialized correctly!\n");
         return;
     }
     if (_p_registerOutput2 != NULL) {
@@ -204,13 +217,15 @@ void StreamIO::registerOutput2(const MMFModule& module) {
     }
 }
 
-void StreamIO::setStackSize(void) {
+void StreamIO::setStackSize(void)
+{
     if (_p_setStackSize != NULL) {
         _p_setStackSize(_p_linker);
     }
 }
 
-void StreamIO::setTaskPriority(void) {
+void StreamIO::setTaskPriority(void)
+{
     if (_p_setTaskPriority != NULL) {
         _p_setTaskPriority(_p_linker);
     }

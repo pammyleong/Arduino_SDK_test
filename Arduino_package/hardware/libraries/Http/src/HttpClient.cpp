@@ -1,6 +1,6 @@
 #include "HttpClient.h"
 #include "b64.h"
-#ifdef PROXY_ENABLED // currently disabled as introduces dependency on Dns.h in Ethernet
+#ifdef PROXY_ENABLED    // currently disabled as introduces dependency on Dns.h in Ethernet
 #include <Dns.h>
 #endif
 
@@ -8,9 +8,10 @@
 const char* HttpClient::kUserAgent = "Ameba";
 const char* HttpClient::kContentLengthPrefix = HTTP_HEADER_CONTENT_LENGTH ": ";
 
-#ifdef PROXY_ENABLED // currently disabled as introduces dependency on Dns.h in Ethernet
-HttpClient::HttpClient(Client& aClient, const char* aProxy, uint16_t aProxyPort)
- : iClient(&aClient), iProxyPort(aProxyPort)
+#ifdef PROXY_ENABLED    // currently disabled as introduces dependency on Dns.h in Ethernet
+HttpClient::HttpClient(Client& aClient, const char* aProxy, uint16_t aProxyPort):
+    iClient(&aClient),
+    iProxyPort(aProxyPort)
 {
     resetState();
     if (aProxy) {
@@ -23,8 +24,9 @@ HttpClient::HttpClient(Client& aClient, const char* aProxy, uint16_t aProxyPort)
     }
 }
 #else
-HttpClient::HttpClient(Client& aClient)
- : iClient(&aClient), iProxyPort(0)
+HttpClient::HttpClient(Client& aClient):
+    iClient(&aClient),
+    iProxyPort(0)
 {
     resetState();
 }
@@ -63,8 +65,7 @@ int HttpClient::startRequest(const char* aServerName, uint16_t aServerPort, cons
         if ((!(iClient->connect(iProxyAddress, iProxyPort))) > 0) {
             return HTTP_ERROR_CONNECTION_FAILED;
         }
-    }
-    else
+    } else
 #endif
     {
         if ((!(iClient->connect(aServerName, aServerPort))) > 0) {
@@ -92,8 +93,7 @@ int HttpClient::startRequest(const IPAddress& aServerAddress, const char* aServe
         if ((!(iClient->connect(iProxyAddress, iProxyPort))) > 0) {
             return HTTP_ERROR_CONNECTION_FAILED;
         }
-    }
-    else
+    } else
 #endif
     {
         if ((!(iClient->connect(aServerAddress, aServerPort))) > 0) {
@@ -178,7 +178,7 @@ void HttpClient::sendBasicAuth(const char* aUser, const char* aPassword)
     iClient->print("Authorization: Basic ");
 
     unsigned char input[3];
-    unsigned char output[5]; // Leave space for a '\0' terminator so we can easily print
+    unsigned char output[5];    // Leave space for a '\0' terminator so we can easily print
     int userLen = strlen(aUser);
     int passwordLen = strlen(aPassword);
     int inputOffset = 0;
@@ -228,34 +228,34 @@ int HttpClient::responseStatusCode()
         unsigned long timeoutStart = millis();
         const char* statusPrefix = "HTTP/*.* ";
         const char* statusPtr = statusPrefix;
-        while ((c != '\n') && ((millis() - timeoutStart) < iHttpResponseTimeout )) {
+        while ((c != '\n') && ((millis() - timeoutStart) < iHttpResponseTimeout)) {
             if (available()) {
                 c = read();
-                //if (c != -1) {
-                    switch (iState) {
-                        case eRequestSent:
-                            if ((*statusPtr == '*') || (*statusPtr == c)) {
-                                statusPtr++;
-                                if (*statusPtr == '\0') {
-                                    iState = eReadingStatusCode;
-                                }
-                            } else {
-                                return HTTP_ERROR_INVALID_RESPONSE;
+                // if (c != -1) {
+                switch (iState) {
+                    case eRequestSent:
+                        if ((*statusPtr == '*') || (*statusPtr == c)) {
+                            statusPtr++;
+                            if (*statusPtr == '\0') {
+                                iState = eReadingStatusCode;
                             }
-                            break;
-                        case eReadingStatusCode:
-                            if (isdigit(c)) {
-                                iStatusCode = iStatusCode * 10 + (c - '0');
-                            } else {
-                                iState = eStatusCodeRead;
-                            }
-                            break;
-                        case eStatusCodeRead:
-                            break;
-                        default:
-                            break;
-                    };
-                    timeoutStart = millis();
+                        } else {
+                            return HTTP_ERROR_INVALID_RESPONSE;
+                        }
+                        break;
+                    case eReadingStatusCode:
+                        if (isdigit(c)) {
+                            iStatusCode = iStatusCode * 10 + (c - '0');
+                        } else {
+                            iState = eStatusCodeRead;
+                        }
+                        break;
+                    case eStatusCodeRead:
+                        break;
+                    default:
+                        break;
+                };
+                timeoutStart = millis();
                 //}
             } else {
                 delay(kHttpWaitForDataDelay);
@@ -263,7 +263,7 @@ int HttpClient::responseStatusCode()
         }
 
         if ((c == '\n') && (iStatusCode < 200)) {
-            c = '\0'; // Clear c so we'll go back into the data reading loop
+            c = '\0';    // Clear c so we'll go back into the data reading loop
         }
     } while ((iState == eStatusCodeRead) && (iStatusCode < 200));
 
@@ -314,7 +314,7 @@ int HttpClient::read()
     return ret;
 }
 
-int HttpClient::read(uint8_t *buf, size_t size)
+int HttpClient::read(uint8_t* buf, size_t size)
 {
     int ret = iClient->read(buf, size);
     if (endOfHeadersReached() && iContentLength > 0) {
