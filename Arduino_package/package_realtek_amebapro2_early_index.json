@@ -18,10 +18,10 @@
           "help": {
             "online": "https://forum.amebaiot.com/"
           },
-          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240223.tar.gz",
-          "archiveFileName": "ameba_pro2-4.0.7-build20240223.tar.gz",
-          "checksum": "SHA-256:72a0166b7ad105103e130d8a8ee99fb52c049bfa62c96bba503590becd52e962",
-          "size": "95128638",
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240228.tar.gz",
+          "archiveFileName": "ameba_pro2-4.0.7-build20240228.tar.gz",
+          "checksum": "SHA-256:b4597fce2aff15a83f9d93fafac5301941b25b781dc19648dc27a5ba6216c904",
+          "size": "95128432",
           "boards": [
             {"name": "AMB82 (RTL8735B)"},
             {"name": "AMB82-MINI (RTL8735B)"}
