@@ -1,41 +1,6 @@
 #include <Arduino.h>
 #include "NNModelSelection.h"
 
-//void NNModelSelection::modelSelect_SD(unsigned char model)
-//{
-//    _nnloadmodelsrc = ARDUINO_LOAD_MODEL_SD;
-//    switch (model) {
-//        case SD_YOLOV3TINY: {
-//            _yolomodel = SD_YOLOV3TINY;
-//            break;
-//        }
-//        case SD_YOLOV4TINY: {
-//            _yolomodel = SD_YOLOV4TINY;
-//            break;
-//        }
-//        case SD_YOLOV7TINY: {
-//            _yolomodel = SD_YOLOV7TINY;
-//            break;
-//        }
-//         case SD_SCRFD: {
-//            _scrfdmodel = SD_SCRFD;
-//            break;
-//        }
-//        case SD_MBFACENET: {
-//            _mfnmodel = SD_MBFACENET;
-//            break;
-//        }
-//        case SD_YAMNET: {
-//            _yamnetmodel = SD_YAMNET;
-//            break;
-//        }
-//        case SD_IMGCLASSIFICATION: {
-//            _imgclassmodel = SD_IMGCLASSIFICATION;
-//            break;
-//        }
-//    }
-//}
-
 void NNModelSelection::modelSelect(unsigned char nntask)
 {
     switch (nntask) {

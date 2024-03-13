@@ -33,6 +33,9 @@ extern int mbfacenet_preprocess(void *data_in, nn_data_param_t *data_param, void
 extern int mbfacenet_postprocess(void *tensor_out, nn_tensor_param_t *param, void *res);
 extern void  mbfacenet_input_setup(void *last_res, int i, nn_data_param_t *input_param);
 
+extern int classification_preprocess(void *data_in, nn_data_param_t *data_param, void *tensor_in, nn_tensor_param_t *tensor_param);
+extern int classification_postprocess(void *tensor_out, nn_tensor_param_t *param, void *res);
+
 #ifdef __cplusplus
 }
 #endif

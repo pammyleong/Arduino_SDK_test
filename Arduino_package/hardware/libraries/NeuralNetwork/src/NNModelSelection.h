@@ -46,7 +46,6 @@
 
 class NNModelSelection: public MMFModule {
 public:
-    //void modelSelect_SD(unsigned char model);
     void modelSelect(unsigned char nntask);
     void modelSelect(unsigned char nntask, unsigned char objdetmodel, unsigned char facedetmodel, unsigned char facerecogmodel, unsigned char audclassmodel);
     void modelSelect(unsigned char nntask, unsigned char objdetmodel, unsigned char facedetmodel, unsigned char facerecogmodel);
@@ -59,6 +58,5 @@ protected:
     unsigned char _yamnetmodel;
     unsigned char _imgclassmodel;
     unsigned char _nntask;
-    int _nnloadmodelsrc;
 };
 #endif
