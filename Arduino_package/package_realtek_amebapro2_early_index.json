@@ -271,8 +271,8 @@
               "host": "x86_64-apple-darwin",
               "archiveFileName": "ameba_pro2_tools_macos-1.2.19.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_macos-1.2.19.tar.gz",
-              "checksum": "SHA-256:446c815c9af4353cf63138f0178f934c7c6c5468ec1164261021263a053c87b2",
-              "size": "892455"
+              "checksum": "SHA-256:50717edc6f8574186f27ff33e961149bc3194ba936a7f1b17f580fc6bad0c4aa",
+              "size": "892183"
             }
           ]
         }
