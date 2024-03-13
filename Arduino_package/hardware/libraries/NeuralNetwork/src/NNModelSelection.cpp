@@ -1,18 +1,43 @@
 #include <Arduino.h>
 #include "NNModelSelection.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "nn_file_op.h"
-#ifdef __cplusplus
-}
-#endif
 
-extern void nn_load_model_src_sel(uint32_t);
+//void NNModelSelection::modelSelect_SD(unsigned char model)
+//{
+//    _nnloadmodelsrc = ARDUINO_LOAD_MODEL_SD;
+//    switch (model) {
+//        case SD_YOLOV3TINY: {
+//            _yolomodel = SD_YOLOV3TINY;
+//            break;
+//        }
+//        case SD_YOLOV4TINY: {
+//            _yolomodel = SD_YOLOV4TINY;
+//            break;
+//        }
+//        case SD_YOLOV7TINY: {
+//            _yolomodel = SD_YOLOV7TINY;
+//            break;
+//        }
+//         case SD_SCRFD: {
+//            _scrfdmodel = SD_SCRFD;
+//            break;
+//        }
+//        case SD_MBFACENET: {
+//            _mfnmodel = SD_MBFACENET;
+//            break;
+//        }
+//        case SD_YAMNET: {
+//            _yamnetmodel = SD_YAMNET;
+//            break;
+//        }
+//        case SD_IMGCLASSIFICATION: {
+//            _imgclassmodel = SD_IMGCLASSIFICATION;
+//            break;
+//        }
+//    }
+//}
 
 void NNModelSelection::modelSelect(unsigned char nntask)
 {
-    nn_load_model_src_sel(ARDUINO_LOAD_MODEL);
     switch (nntask) {
         case OBJECT_DETECTION: {
             _nntask = OBJECT_DETECTION;
@@ -20,6 +45,7 @@ void NNModelSelection::modelSelect(unsigned char nntask)
             _scrfdmodel = NA_MODEL;
             _mfnmodel = NA_MODEL;
             _yamnetmodel = NA_MODEL;
+            _imgclassmodel = NA_MODEL;
             break;
         }
         case FACE_DETECTION: {
@@ -28,6 +54,7 @@ void NNModelSelection::modelSelect(unsigned char nntask)
             _scrfdmodel = DEFAULT_SCRFD;
             _mfnmodel = NA_MODEL;
             _yamnetmodel = NA_MODEL;
+            _imgclassmodel = NA_MODEL;
             break;
         }
         case FACE_RECOGNITION: {
@@ -36,6 +63,7 @@ void NNModelSelection::modelSelect(unsigned char nntask)
             _mfnmodel = DEFAULT_MOBILEFACENET;
             _scrfdmodel = DEFAULT_SCRFD;
             _yamnetmodel = NA_MODEL;
+            _imgclassmodel = NA_MODEL;
             break;
         }
         case AUDIO_CLASSIFICATION: {
@@ -44,6 +72,7 @@ void NNModelSelection::modelSelect(unsigned char nntask)
             _mfnmodel = NA_MODEL;
             _scrfdmodel = NA_MODEL;
             _yamnetmodel = DEFAULT_YAMNET;
+            _imgclassmodel = NA_MODEL;
             break;
         }
         case IMAGE_CLASSIFICATION: {
@@ -60,7 +89,6 @@ void NNModelSelection::modelSelect(unsigned char nntask)
 
 void NNModelSelection::modelSelect(unsigned char nntask, unsigned char objdetmodel, unsigned char facedetmodel, unsigned char facerecogmodel, unsigned char audclassmodel, unsigned char imgclassmodel)
 {
-    nn_load_model_src_sel(ARDUINO_LOAD_MODEL);
     switch (nntask) {
         case OBJECT_DETECTION: {
             _nntask = OBJECT_DETECTION;
@@ -194,7 +222,6 @@ void NNModelSelection::modelSelect(unsigned char nntask, unsigned char objdetmod
 
 void NNModelSelection::modelSelect(unsigned char nntask, unsigned char objdetmodel, unsigned char facedetmodel, unsigned char facerecogmodel, unsigned char audclassmodel)
 {
-    nn_load_model_src_sel(ARDUINO_LOAD_MODEL);
     switch (nntask) {
         case OBJECT_DETECTION: {
             _nntask = OBJECT_DETECTION;
@@ -305,7 +332,6 @@ void NNModelSelection::modelSelect(unsigned char nntask, unsigned char objdetmod
 
 void NNModelSelection::modelSelect(unsigned char nntask, unsigned char objdetmodel, unsigned char facedetmodel, unsigned char facerecogmodel)
 {
-    nn_load_model_src_sel(ARDUINO_LOAD_MODEL);
     switch (nntask) {
         case OBJECT_DETECTION: {
             _nntask = OBJECT_DETECTION;
