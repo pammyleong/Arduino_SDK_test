@@ -101,7 +101,7 @@ jobs:
           sketch-paths: |
             - Arduino_package/hardware/libraries/
           platforms: |
-            - source-url: https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/package_realtek_amebapro2_index.json
+            - source-url: https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/package_realtek_amebapro2_early_index.json
               name: realtek:AmebaPro2
             - source-path: Arduino_package/hardware/
               name: realtek:AmebaPro2
