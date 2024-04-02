@@ -13,6 +13,40 @@
 	  {
           "name": "Realtek Ameba Boards (32-bit Arm v8M @500MHz)",
           "architecture": "AmebaPro2",
+          "version": "4.0.7-build20240402",
+          "category": "Contributed",
+          "help": {
+            "online": "https://forum.amebaiot.com/"
+          },
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240402.tar.gz",
+          "archiveFileName": "ameba_pro2-4.0.7-build20240402.tar.gz",
+          "checksum": "SHA-256:69f75ceb5a7967d0aef3a858c5878dc583dfcf5ab0576e54dab5034bb3b7bacc",
+          "size": "96028311",
+          "boards": [
+            {"name": "AMB82 (RTL8735B)"},
+            {"name": "AMB82-MINI (RTL8735B)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_toolchain",
+              "version": "1.0.1-p1"
+            },
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_toolchain2",
+              "version": "1.0.1-p2"
+            },
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_tools",
+              "version": "1.2.19"
+            }
+          ]
+        },
+	  {
+          "name": "Realtek Ameba Boards (32-bit Arm v8M @500MHz)",
+          "architecture": "AmebaPro2",
           "version": "4.0.7-build20240326-1",
           "category": "Contributed",
           "help": {
@@ -298,8 +332,8 @@
               "host": "x86_64-pc-linux-gnu",
               "archiveFileName": "ameba_pro2_tools_linux-1.2.19.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_linux-1.2.19.tar.gz",
-              "checksum": "SHA-256:835c12787fa9221e889062b33a5b589df164a527f9b146778f6637ae066d7703",
-              "size": "4602962"
+              "checksum": "SHA-256:d80a859653bb4c0558c9fd6e1b3a332bb814718aa4fd61f36922dcbfd0abc801",
+              "size": "5394491"
             },
             {
               "host": "x86_64-apple-darwin",
