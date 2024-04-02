@@ -36,13 +36,13 @@
 #define AUDIO_CLASSIFICATION 0x24
 #define IMAGE_CLASSIFICATION 0x25
 
-#define SD_YOLOV3TINY           0x31
-#define SD_YOLOV4TINY           0x32
-#define SD_YOLOV7TINY           0x33
-#define SD_SCRFD                0x34
-#define SD_MBFACENET            0x35
-#define SD_YAMNET               0x36
-#define SD_IMGCLASSIFICATION    0x37
+#define SD_YOLOV3TINY        0x31
+#define SD_YOLOV4TINY        0x32
+#define SD_YOLOV7TINY        0x33
+#define SD_SCRFD             0x34
+#define SD_MBFACENET         0x35
+#define SD_YAMNET            0x36
+#define SD_IMGCLASSIFICATION 0x37
 
 class NNModelSelection: public MMFModule {
 public:

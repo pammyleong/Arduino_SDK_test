@@ -71,17 +71,18 @@ void NNFaceDetectionRecognition::begin(void)
     }
 
     if (_nntask != FACE_RECOGNITION) {
-         if (ARDUINO_LOAD_MODEL == 0x02) {
+        if (ARDUINO_LOAD_MODEL == 0x02) {
             printf("\r\n[INFO] Models loaded using SD Card\n");
         } else {
-            printf("\r\n[ERROR] Invalid NN task selected! Please check modelSelect() again\n");
-            while (1)
-                ;
+            while (1) {
+                printf("\r\n[ERROR] Invalid NN task selected! Please check modelSelect() again\n");
+                delay(5000);
+            }
         }
     }
 
     if (ARDUINO_LOAD_MODEL == 0x02) {
-        vfs_init(NULL);  // init filesystem
+        vfs_init(NULL);    // init filesystem
         vfs_user_register("sd", VFS_FATFS, VFS_INF_SD);
         vipnn_control(_p_mmf_context->priv, CMD_VIPNN_SET_MODEL, (int)&scrfd_fwfs_from_sd);
     } else {
@@ -129,13 +130,13 @@ void NNFaceDetectionRecognition::begin(void)
 
     // VIPNN MobileFaceNet configuration
     if (ARDUINO_LOAD_MODEL == 0x02) {
-        vfs_init(NULL);  // init filesystem
+        vfs_init(NULL);    // init filesystem
         vfs_user_register("sd", VFS_FATFS, VFS_INF_SD);
         vipnn_control(mbfacenet_ctx->priv, CMD_VIPNN_SET_MODEL, (int)&mbfacenet_fwfs_from_sd);
     } else {
         vipnn_control(mbfacenet_ctx->priv, CMD_VIPNN_SET_MODEL, (int)&mbfacenet_fwfs);
     }
-    
+
     vipnn_control(mbfacenet_ctx->priv, CMD_VIPNN_SET_CASCADE, 2);
     vipnn_control(mbfacenet_ctx->priv, CMD_VIPNN_SET_OUTPUT, 1);
     mm_module_ctrl(mbfacenet_ctx, CMD_VIPNN_SET_IN_PARAMS, (int)&fr_param);

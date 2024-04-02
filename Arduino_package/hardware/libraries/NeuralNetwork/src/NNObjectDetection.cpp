@@ -106,22 +106,23 @@ void NNObjectDetection::begin(void)
         if (ARDUINO_LOAD_MODEL == 0x02) {
             printf("\r\n[INFO] Models loaded using SD Card\n");
         } else {
-            printf("\r\n[ERROR] Invalid NN task selected! Please check modelSelect() again\n");
             while (1) {
+                printf("\r\n[ERROR] Invalid NN task selected! Please check modelSelect() again\n");
+                delay(5000);
             }
         }
     }
 
     if (ARDUINO_LOAD_MODEL == 0x02) {
-        vfs_init(NULL);  // init filesystem
+        vfs_init(NULL);    // init filesystem
         vfs_user_register("sd", VFS_FATFS, VFS_INF_SD);
         switch (_yolomodel) {
-            case SD_YOLOV3TINY:{
+            case SD_YOLOV3TINY: {
                 vipnn_control(_p_mmf_context->priv, CMD_VIPNN_SET_MODEL, (int)&yolov3_tiny_from_sd);
                 // printf("\r\n[INFO] YOLOV3 running...\n");
                 break;
             }
-            case SD_YOLOV4TINY:{
+            case SD_YOLOV4TINY: {
                 vipnn_control(_p_mmf_context->priv, CMD_VIPNN_SET_MODEL, (int)&yolov4_tiny_from_sd);
                 // printf("\r\n[INFO] YOLOV4 running...\n");
                 break;
@@ -132,7 +133,7 @@ void NNObjectDetection::begin(void)
                 break;
             }
         }
-    } else { 
+    } else {
         switch (_yolomodel) {
             case DEFAULT_YOLOV3TINY:
             case CUSTOMIZED_YOLOV3TINY: {
