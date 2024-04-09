@@ -1,0 +1,10 @@
+﻿  ino_validation.c
+E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\ino_validation\version_c\ino_validation\ino_validation.c(243,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\ino_validation\version_c\ino_validation\ino_validation.c(463,3): warning C4013: 'mkdir' undefined; assuming extern returning int
+     Creating library E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\ino_validation\version_c\x64\Release\ino_validation.lib and object E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\ino_validation\version_c\x64\Release\ino_validation.exp
+  Generating code
+  0 of 159 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ino_validation.vcxproj -> E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\ino_validation\version_c\x64\Release\ino_validation.exe

@@ -1,0 +1,10 @@
+﻿  nn_model_update.c
+E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\nn_model_update\version_c\nn_model_update\nn_model_update.c(252,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     Creating library E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\nn_model_update\version_c\x64\Release\nn_model_update.lib and object E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\nn_model_update\version_c\x64\Release\nn_model_update.exp
+  Generating code
+E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\nn_model_update\version_c\nn_model_update\nn_model_update.c(510): warning C4172: returning address of local variable or temporary: fileCreationDate
+  14 of 164 functions ( 8.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  nn_model_update.vcxproj -> E:\SDK_GitHub_Pammy_Repo\For_self\ambpro2_arduino\Ameba_misc\Ameba_tools\nn_model_update\version_c\x64\Release\nn_model_update.exe
