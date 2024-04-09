@@ -18,7 +18,7 @@
           "help": {
             "online": "https://forum.amebaiot.com/"
           },
-          "url": "https://github.com/ambiot/ambpro2_arduino/raw/dev/Arduino_package/release/ameba_pro2-4.0.7-build20240409.tar.gz",
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240409.tar.gz",
           "archiveFileName": "ameba_pro2-4.0.7-build20240409.tar.gz",
           "checksum": "SHA-256:656a348ba309d276b9224c452a77d978a11bff4c917ac4b4594a11efb9f0eb9d",
           "size": "69410021",
@@ -52,7 +52,7 @@
           "help": {
             "online": "https://forum.amebaiot.com/"
           },
-          "url": "https://github.com/ambiot/ambpro2_arduino/raw/dev/Arduino_package/release/ameba_pro2-4.0.7-build20240408.tar.gz",
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240408.tar.gz",
           "archiveFileName": "ameba_pro2-4.0.7-build20240408.tar.gz",
           "checksum": "SHA-256:95d6854cca1b72583d7b9ed8e2812aad968b71341ce5b4a2127b3be6fefd7c97",
           "size": "96468841",
