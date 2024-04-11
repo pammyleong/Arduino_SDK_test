@@ -20,7 +20,7 @@
           },
           "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.7-build20240411.tar.gz",
           "archiveFileName": "ameba_pro2-4.0.7-build20240411.tar.gz",
-          "checksum": "SHA-256:664c9a7182e58f6c67171d1078388d4793b14196f9abe804dfc984b83c93572c",
+          "checksum": "SHA-256:12500ff20e0a0277abff59b1cd7b6331c5d6db20c2747f266869daaee72b891c",
           "size": "69409494",
           "boards": [
             {"name": "AMB82 (RTL8735B)"},
