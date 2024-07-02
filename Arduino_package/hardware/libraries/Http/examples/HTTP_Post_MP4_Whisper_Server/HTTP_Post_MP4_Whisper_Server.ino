@@ -1,6 +1,6 @@
 /*
 Example guide:
-TBD
+https://www.amebaiot.com/en/amebapro2-arduino-http-post-mp4/
 */
 
 #include <Arduino.h>

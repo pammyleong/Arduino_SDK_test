@@ -402,6 +402,7 @@ int hal_isp_set_ctrl(uint32_t id, int *value);
 int hal_isp_set_init_ae(int init_exposure, int init_gain);
 int hal_isp_set_init_awb(int init_r_gain, int init_b_gain);
 void hal_isp_set_drop_frame_num(uint32_t num);
+void hal_isp_set_drop_frame_num_sw(uint32_t num);
 int hal_isp_set_init_dn_mode(int dn_mode);
 void hal_isp_set_direct_i2c_mode(uint32_t direct_i2c_mode);
 int hal_isp_set_init_gray_mode(int gray_mode);
@@ -413,5 +414,7 @@ int hal_isp_config_iq_calibration(int config_flag);
 void hal_isp_set_hdr_mode(uint32_t hdr_mode);
 void hal_isp_set_mirrorflip_mode(uint32_t mirrorflip_mode);
 int hal_isp_set_stream_fps(uint32_t ch, uint32_t fps);
+void hal_isp_set_init_frame_rate(u32 val);
+u32 hal_isp_get_init_frame_rate(void);
 
 #endif /* HAL_RTL8735B_LIB_SOURCE_RAM_VIDEO_ISP_HAL_ISP_H_ */
