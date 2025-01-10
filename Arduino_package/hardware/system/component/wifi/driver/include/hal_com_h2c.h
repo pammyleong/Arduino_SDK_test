@@ -114,6 +114,7 @@ enum h2c_cmd {
 	H2C_BCN_TRACK = 0x96,
 	H2C_PNO_SCAN_SET = 0x97,
 	H2C_NTP = 0x98,
+	H2C_PNO_DISCONNECT_SCAN = 0x99,
 	H2C_ICMP_OFFLOAD = 0x9A,
 	H2C_RESET_TSF = 0xC0,
 	H2C_BCNHWSEQ = 0xC5,
@@ -331,6 +332,10 @@ s32 rtw_hal_set_FwMediaStatusRpt_range_cmd(_adapter *adapter, bool opmode, bool 
 #define SET_H2CCMD_NTP_PARM_TIME_L(__pH2CCmd, __Value)				     SET_BITS_TO_LE_1BYTE(__pH2CCmd+2, 0, 8, __Value)
 #define SET_H2CCMD_NTP_PARM_TIME_H(__pH2CCmd, __Value)				     SET_BITS_TO_LE_1BYTE(__pH2CCmd+3, 0, 8, __Value)
 
+/*_PNO_SSID_SET_CMD_0x99*/
+#define SET_H2CCMD_PNO_SCAN_SSID_ENABLE(__pH2CCmd, __Value)					SET_BITS_TO_LE_1BYTE(__pH2CCmd, 0, 1, __Value)
+#define SET_H2CCMD_PNO_SCAN_SSID_RSVD_PAGE_LOCATION(__pH2CCmd, __Value)		SET_BITS_TO_LE_1BYTE(__pH2CCmd+1, 0, 8, __Value)
+
 /* _TCP_KEEP_ALIVE_CMD_0x07 */
 #define SET_H2CCMD_TCP_KEEPALIVE_PARM_ENABLE(__pH2CCmd, __Value)			SET_BITS_TO_LE_1BYTE(__pH2CCmd, 0, 1, __Value)
 #define SET_H2CCMD_TCP_KEEPALIVE_PARM_ADOPT(__pH2CCmd, __Value)				SET_BITS_TO_LE_1BYTE(__pH2CCmd, 1, 1, __Value)
@@ -465,6 +470,7 @@ s32 rtw_hal_set_FwMediaStatusRpt_range_cmd(_adapter *adapter, bool opmode, bool 
 #define SET_H2CCMD_REMOTE_WAKE_CTRL_ARP_REQ_PWR_BIT(__pH2CCmd, __Value) SET_BITS_TO_LE_1BYTE((__pH2CCmd)+4, 4, 1, __Value)
 #define SET_H2CCMD_REMOTE_WAKE_CTRL_ARP_REQ_DTIM1TO_EN(__pH2CCmd, __Value) SET_BITS_TO_LE_1BYTE((__pH2CCmd)+4, 5, 1, __Value)
 #define SET_H2CCMD_REMOTE_WAKE_CTRL_ARP_REQ_LOC(__pH2CCmd, __Value) SET_BITS_TO_LE_1BYTE((__pH2CCmd)+5, 0, 8, __Value)
+#define SET_H2CCMD_REMOTE_WAKE_CTRL_UNICASTWK_FILTER_ACTION_FRAME_EN(__pH2CCmd, __Value) SET_BITS_TO_LE_1BYTE((__pH2CCmd)+6, 0, 1, __Value)
 
 /* AOAC_GLOBAL_INFO_0x82 */
 #define SET_H2CCMD_AOAC_GLOBAL_INFO_PAIRWISE_ENC_ALG(__pH2CCmd, __Value)	SET_BITS_TO_LE_1BYTE(__pH2CCmd, 0, 8, __Value)
