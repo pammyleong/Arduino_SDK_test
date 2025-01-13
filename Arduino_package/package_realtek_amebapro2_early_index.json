@@ -13,6 +13,45 @@
 	  {
           "name": "Realtek Ameba Boards (32-bit Arm v8M @500MHz)",
           "architecture": "AmebaPro2",
+          "version": "4.0.9-build20250113",
+          "category": "Contributed",
+          "help": {
+            "online": "https://forum.amebaiot.com/"
+          },
+          "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2-4.0.9-build20250113.tar.gz",
+          "archiveFileName": "ameba_pro2-4.0.9-build20250113.tar.gz",
+          "checksum": "SHA-256:f1184aa144016ba81f8c535366cea4f8dfb35750af96b443a5a9de3f2e69000e",
+          "size": "69862629",
+          "boards": [
+            {"name": "AMB82 (RTL8735B)"},
+            {"name": "AMB82-MINI (RTL8735B)"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_toolchain",
+              "version": "1.0.1-p1"
+            },
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_toolchain2",
+              "version": "1.0.1-p2"
+            },
+            {
+              "packager": "realtek",
+              "name": "ameba_pro2_tools",
+              "version": "1.4.0"
+            },
+			{
+              "packager": "realtek",
+              "name": "ameba_pro2_nn_models",
+              "version": "1.0.2"
+            }
+          ]
+        },
+	  {
+          "name": "Realtek Ameba Boards (32-bit Arm v8M @500MHz)",
+          "architecture": "AmebaPro2",
           "version": "4.0.9-build20241217",
           "category": "Contributed",
           "help": {
@@ -477,6 +516,33 @@
               "url":"https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_toolchain_macos-1.0.1-p2.tar.bz2",
               "checksum":"SHA-256:892a0a6848863b0853a0b60a3fcfedb703d897961615274049f8fca036c9db32",
               "size":"77770301"
+            }
+          ]
+        },
+		{
+          "name": "ameba_pro2_tools",
+          "version": "1.4.0",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "archiveFileName": "ameba_pro2_tools_windows-1.4.0.tar.gz",
+              "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_windows-1.4.0.tar.gz",
+              "checksum": "SHA-256:1cf33157757fbce392a4350f2de4bc784031630567b2ef7ae312fb9aaee69e35",
+              "size": "10091297"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "archiveFileName": "ameba_pro2_tools_linux-1.4.0.tar.gz",
+              "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_linux-1.4.0.tar.gz",
+              "checksum": "SHA-256:60f92c8439f52879704b6f8d2d43bdc4b454c44f6235f2d35e18e98a78c50e0d",
+              "size": "13475918"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "archiveFileName": "ameba_pro2_tools_macos-1.4.0.tar.gz",
+              "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_macos-1.4.0.tar.gz",
+              "checksum": "SHA-256:7f9e01dab6c7d12686ade7932cf275696dfdd189bfa42d089d7f6d19dc4739c0",
+              "size": "12218143"
             }
           ]
         },
