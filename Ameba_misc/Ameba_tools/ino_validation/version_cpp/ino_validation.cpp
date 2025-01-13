@@ -1331,10 +1331,12 @@ void writeTXT(const std::string &path) {
 						std::string filename = entry->d_name;
 						if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] filename: " << filename << std::endl;
 						if (filename.find(".nb") != std::string::npos) {
-							if (filename.find(input2model(model_names[i])) != std::string::npos) {
-
+							if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] filename: " << filename << std::endl;
+							if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] model_names[i]: " << model_names[i] << std::endl;
+							if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] input2model(model_names[i]): " << input2model(model_names[i]) << std::endl;
+							//if (filename.find(input2model(model_names[i])) != std::string::npos) {
 								count_match++;
-							}
+							//}
 						}
 					}
 				}
