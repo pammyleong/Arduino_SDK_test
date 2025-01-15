@@ -581,8 +581,8 @@
               "host": "i686-mingw32",
               "archiveFileName": "ameba_pro2_tools_windows-1.4.0.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_windows-1.4.0.tar.gz",
-              "checksum": "SHA-256:6bdb8c33e60873627ba89954a1ef1779b6f745a2634bd195bf8f507e46d1c275",
-              "size": "10103258"
+              "checksum": "SHA-256:233579d517f6cbead22f2035e883f45750c6a2bdaa3181bc8f98ff712c32506e",
+              "size": "10097506"
             },
             {
               "host": "x86_64-pc-linux-gnu",
