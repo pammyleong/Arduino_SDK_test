@@ -111,54 +111,6 @@ std::string key_amb_bypassVOE2 = " configVideoChannel";
 // -------------------------------
 //           Functions
 // -------------------------------
-// Read contents from JSON
-using json = nlohmann::json;
-int modelCount(const std::string& jsonFilePath) {
-	int count = 0; 
-	// Read the JSON file
-    std::ifstream inFile(jsonFilePath);
-    if (!inFile.is_open()) {
-        throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
-    }
-
-    // Parse the JSON file
-    json j;
-    inFile >> j;
-
-	// Access the "modelCount" key and extract the "COUNT" value as a string
-    std::string count_str = j["modelCount"]["COUNT"].get<std::string>();
-
-    // Convert the string to an integer
-	count = std::stoi(count_str);  // Converts the string to an integer
-
-	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count :" << count << std::endl;
-
-    return count;
-}
-
-int modelSelectParamsCount(const std::string& jsonFilePath) {
-	int count = 0; 
-
-	// Read the JSON file
-    std::ifstream inFile(jsonFilePath);
-    if (!inFile.is_open()) {
-        throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
-    }
-
-    // Parse the JSON file
-    json j;
-    inFile >> j;
-
-	// Access the "modelCount" key and extract the "COUNT" value as a string
-    std::string count_str = j["ModelSelectParamsCount"]["COUNT"].get<std::string>();
-
-    // Convert the string to an integer
-	count = std::stoi(count_str);  // Converts the string to an integer
-
-	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] ModelSelectParamsCount :" << count << std::endl;
-
-    return count;
-}
 
 #ifdef _WIN32
 std::wstring get_username() {
@@ -211,7 +163,159 @@ std::string getUsernameChecked(const std::string& path) {
 
     return newPath;
 }
+
+std::string readUtf16File(const std::wstring& utf16Path) {
+    HANDLE hFile = CreateFileW(utf16Path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        DWORD error = GetLastError();
+        std::cerr << "Failed to open file: " << error << std::endl;
+        return "";
+    }
+
+    DWORD fileSize = GetFileSize(hFile, nullptr);
+    if (fileSize == INVALID_FILE_SIZE) {
+        std::cerr << "Failed to get file size: " << GetLastError() << std::endl;
+        CloseHandle(hFile);
+        return "";
+    }
+
+    std::vector<char> fileContents(fileSize + 1);  // +1 for null terminator
+
+    DWORD bytesRead;
+    if (!ReadFile(hFile, &fileContents[0], fileSize, &bytesRead, nullptr)) {
+        std::cerr << "Failed to read file: " << GetLastError() << std::endl;
+        CloseHandle(hFile);
+        return "";
+    }
+
+    fileContents[fileSize] = '\0';  // Null-terminate the content
+
+    CloseHandle(hFile);
+
+    return std::string(fileContents.begin(), fileContents.end() - 1);  // Remove null terminator
+}
 #endif
+
+// Read contents from JSON
+using json = nlohmann::json;
+int modelCount(const std::string& jsonFilePath) {
+	int count = 0; 
+#if _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
+
+	 // Access "modelCount" -> "COUNT"
+	if (!fileContent.empty()) {
+        try {
+            // Parse JSON
+            json j = json::parse(fileContent);
+
+            // Access "modelCount" -> "COUNT"
+            if (j.contains("modelCount") && j["modelCount"].contains("COUNT")) {
+                std::string count_str = j["modelCount"]["COUNT"];
+
+                // Ensure the string is valid for conversion to integer
+                if (!count_str.empty()) {
+                    try {
+                        // Convert to integer
+                        count = std::stoi(count_str);
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Invalid argument: could not convert to integer: " << count_str << std::endl;
+                    } catch (const std::out_of_range& e) {
+                        std::cerr << "Out of range: could not convert to integer: " << count_str << std::endl;
+                    }
+                }
+            }
+
+            // Debug output
+            if (PRINT_DEBUG) {
+                std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count: " << count << std::endl;
+            }
+        } catch (const json::exception& e) {
+            std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        }
+    }
+#else
+	// Read the JSON file
+    std::ifstream inFile(jsonFilePath);
+    if (!inFile.is_open()) {
+        throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
+    }
+
+    // Parse the JSON file
+    json j;
+    inFile >> j;
+
+	// Access the "modelCount" key and extract the "COUNT" value as a string
+    std::string count_str = j["modelCount"]["COUNT"].get<std::string>();
+
+    // Convert the string to an integer
+	count = std::stoi(count_str);  // Converts the string to an integer
+
+	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count :" << count << std::endl;
+#endif
+    return count;
+}
+
+int modelSelectParamsCount(const std::string& jsonFilePath) {
+	int count = 0;
+#if _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
+
+	 // Access "modelCount" -> "COUNT"
+	if (!fileContent.empty()) {
+        try {
+            // Parse JSON
+            json j = json::parse(fileContent);
+
+            // Access "modelCount" -> "COUNT"
+            if (j.contains("ModelSelectParamsCount") && j["ModelSelectParamsCount"].contains("COUNT")) {
+                std::string count_str = j["ModelSelectParamsCount"]["COUNT"];
+
+                // Ensure the string is valid for conversion to integer
+                if (!count_str.empty()) {
+                    try {
+                        // Convert to integer
+                        count = std::stoi(count_str);
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Invalid argument: could not convert to integer: " << count_str << std::endl;
+                    } catch (const std::out_of_range& e) {
+                        std::cerr << "Out of range: could not convert to integer: " << count_str << std::endl;
+                    }
+                }
+            }
+
+            // Debug output
+            if (PRINT_DEBUG) {
+                std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count: " << count << std::endl;
+            }
+        } catch (const json::exception& e) {
+            std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        }
+    }
+#else
+	// Read the JSON file
+    std::ifstream inFile(jsonFilePath);
+    if (!inFile.is_open()) {
+        throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
+    }
+
+    // Parse the JSON file
+    json j;
+    inFile >> j;
+
+	// Access the "modelCount" key and extract the "COUNT" value as a string
+    std::string count_str = j["ModelSelectParamsCount"]["COUNT"].get<std::string>();
+
+    // Convert the string to an integer
+	count = std::stoi(count_str);  // Converts the string to an integer
+
+	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] ModelSelectParamsCount :" << count << std::endl;
+#endif
+
+    return count;
+}
 
 std::string dirName(const std::string& directory_path) {
 #ifdef _WIN32
@@ -941,16 +1045,16 @@ void extractParam(std::string& line, std::string& param) {
 
 std::string input2model(const std::string& input) {
 std::string input_new, input_lower;
-    // Read the JSON file
+#if __APPLE__
+	// Read the JSON file
     std::ifstream inFile(tool_folder_json_path);
     if (!inFile.is_open()) {
-        throw std::runtime_error("Unable to open JSON file: " + tool_folder_json_path);
+        throw std::runtime_error("3 Unable to open JSON file: " + tool_folder_json_path);
     }
 
     // Parse the JSON file
     json j;
     inFile >> j;
-#if __APPLE__
     std::unordered_map<std::string, std::string> model_mapping;
     std::string input_no_spaces = input;
     input_no_spaces.erase(std::remove_if(input_no_spaces.begin(), input_no_spaces.end(), ::isspace), input_no_spaces.end());
@@ -958,7 +1062,22 @@ std::string input_new, input_lower;
     for (const auto& pair : j["model_mappings"].items()) {
         model_mapping.insert(std::make_pair(pair.key(), pair.value()));
     }
+#elif _WIN32
+    std::wstring jsonFilePath_utf16 = utf8_to_utf16(tool_folder_json_path);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
+	// Parse the JSON content from the UTF-8 string
+    json j = json::parse(fileContent);
+	std::unordered_map<std::string, std::string> model_mapping = j["model_mappings"].get<std::unordered_map<std::string, std::string>>();
 #else
+	// Read the JSON file
+    std::ifstream inFile(tool_folder_json_path);
+    if (!inFile.is_open()) {
+        throw std::runtime_error("3 Unable to open JSON file: " + tool_folder_json_path);
+    }
+
+    // Parse the JSON file
+    json j;
+    inFile >> j;
     std::unordered_map<std::string, std::string> model_mapping = j["model_mappings"].get<std::unordered_map<std::string, std::string>>();
 #endif
 
@@ -1103,6 +1222,16 @@ void writeTXT(const std::string &path) {
 	std::string param;
 
 	// Read the JSON file
+#if _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(tool_folder_json_path);
+
+    // Read the content of the file as a UTF-8 string
+    std::string fileContent = readUtf16File(jsonFilePath_utf16);
+
+    // Parse the JSON content from the UTF-8 string
+    json j = json::parse(fileContent);
+
+#else
 	std::ifstream inFile(tool_folder_json_path);
 	if (!inFile.is_open()) {
 		throw std::runtime_error("Unable to open JSON file: " + tool_folder_json_path);
@@ -1111,7 +1240,7 @@ void writeTXT(const std::string &path) {
 	// Parse the JSON file
 	json j;
 	inFile >> j;
-
+#endif
 	// Initialize a vector to store tasks
 	std::vector<std::string> nnTasks;
 	std::vector<std::string> headerName;

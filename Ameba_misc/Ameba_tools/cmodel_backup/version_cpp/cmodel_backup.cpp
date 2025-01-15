@@ -48,7 +48,7 @@ strip cmodel_backup_macos
 #undef isinf
 #include "json.hpp"
 
-#define PRINT_DEBUG         0
+#define PRINT_DEBUG         1
 #define MAX_PATH_LENGTH     1024
 #define BUFFER_SIZE 		4096
 
@@ -136,6 +136,37 @@ std::string convert_to_utf8(const std::wstring& wide_str) {
     return converter.to_bytes(wide_str);
 }
 
+std::string readUtf16File(const std::wstring& utf16Path) {
+    HANDLE hFile = CreateFileW(utf16Path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        DWORD error = GetLastError();
+        std::cerr << "Failed to open file: " << error << std::endl;
+        return "";
+    }
+
+    DWORD fileSize = GetFileSize(hFile, nullptr);
+    if (fileSize == INVALID_FILE_SIZE) {
+        std::cerr << "Failed to get file size: " << GetLastError() << std::endl;
+        CloseHandle(hFile);
+        return "";
+    }
+
+    std::vector<char> fileContents(fileSize + 1);  // +1 for null terminator
+
+    DWORD bytesRead;
+    if (!ReadFile(hFile, &fileContents[0], fileSize, &bytesRead, nullptr)) {
+        std::cerr << "Failed to read file: " << GetLastError() << std::endl;
+        CloseHandle(hFile);
+        return "";
+    }
+
+    fileContents[fileSize] = '\0';  // Null-terminate the content
+
+    CloseHandle(hFile);
+
+    return std::string(fileContents.begin(), fileContents.end() - 1);  // Remove null terminator
+}
+
 // Check if username is correct or have weird symbols between Users and AppData
 // ** For chinese version laptop such as using 使用者, TBD
 std::string getUsernameChecked(const std::string& path) {
@@ -162,6 +193,8 @@ std::string getUsernameChecked(const std::string& path) {
     return newPath;
 }
 #endif
+
+
 std::string dirName(const std::string& directory_path) {
 int sdk_counter = 0;
 
@@ -240,11 +273,46 @@ using json = nlohmann::json;
 
 int NNTaskCount (const std::string& jsonFilePath) {
 	int count = 0; 
+#if _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
 
+	 // Access "modelCount" -> "COUNT"
+	if (!fileContent.empty()) {
+        try {
+            // Parse JSON
+            json j = json::parse(fileContent);
+
+            // Access "modelCount" -> "COUNT"
+            if (j.contains("NNTasks") && j["NNTasks"].contains("COUNT")) {
+                std::string count_str = j["NNTasks"]["COUNT"];
+
+                // Ensure the string is valid for conversion to integer
+                if (!count_str.empty()) {
+                    try {
+                        // Convert to integer
+                        count = std::stoi(count_str);
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Invalid argument: could not convert to integer: " << count_str << std::endl;
+                    } catch (const std::out_of_range& e) {
+                        std::cerr << "Out of range: could not convert to integer: " << count_str << std::endl;
+                    }
+                }
+            }
+
+            // Debug output
+            if (PRINT_DEBUG) {
+                std::cout << "[" << __func__ << "][" << __LINE__ << "] NNTasks count: " << count << std::endl;
+            }
+        } catch (const json::exception& e) {
+            std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        }
+    }
+#else
 	// Read the JSON file
     std::ifstream inFile(jsonFilePath);
     if (!inFile.is_open()) {
-        throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
+        throw std::runtime_error("1 Unable to open JSON file: " + jsonFilePath);
     }
 
     // Parse the JSON file
@@ -258,13 +326,48 @@ int NNTaskCount (const std::string& jsonFilePath) {
 	count = std::stoi(count_str);  // Converts the string to an integer
 
 	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] NNTasks count :" << count << std::endl;
-
+#endif
     return count;
 }
 
-int modelCount (const std::string& jsonFilePath) {
+int modelCount(const std::string& jsonFilePath) {
 	int count = 0; 
+#if _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
 
+	 // Access "modelCount" -> "COUNT"
+	if (!fileContent.empty()) {
+        try {
+            // Parse JSON
+            json j = json::parse(fileContent);
+
+            // Access "modelCount" -> "COUNT"
+            if (j.contains("modelCount") && j["modelCount"].contains("COUNT")) {
+                std::string count_str = j["modelCount"]["COUNT"];
+
+                // Ensure the string is valid for conversion to integer
+                if (!count_str.empty()) {
+                    try {
+                        // Convert to integer
+                        count = std::stoi(count_str);
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Invalid argument: could not convert to integer: " << count_str << std::endl;
+                    } catch (const std::out_of_range& e) {
+                        std::cerr << "Out of range: could not convert to integer: " << count_str << std::endl;
+                    }
+                }
+            }
+
+            // Debug output
+            if (PRINT_DEBUG) {
+                std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count: " << count << std::endl;
+            }
+        } catch (const json::exception& e) {
+            std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        }
+    }
+#else
 	// Read the JSON file
     std::ifstream inFile(jsonFilePath);
     if (!inFile.is_open()) {
@@ -282,7 +385,7 @@ int modelCount (const std::string& jsonFilePath) {
 	count = std::stoi(count_str);  // Converts the string to an integer
 
 	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count :" << count << std::endl;
-
+#endif
     return count;
 }
 
@@ -690,16 +793,17 @@ std::string getIDEFilePath (const std::string &path) {
 
 std::string input2nbfile(const std::string& input) {
 	std::string input_new, input_lower;
-    std::ifstream inFile(tool_folder_json_path);
+
+#if __APPLE__
+	std::ifstream inFile(tool_folder_json_path);
     if (!inFile.is_open()) {
-        throw std::runtime_error("Unable to open JSON file: " + tool_folder_json_path);
+        throw std::runtime_error("3 Unable to open JSON file: " + tool_folder_json_path);
     }
 
-    // Parse the JSON file
     json j;
     inFile >> j;
 
-#if __APPLE__
+    std::unordered_map<std::string, std::string> model_mapping;
     std::string input_no_spaces = input;
     input_no_spaces.erase(std::remove_if(input_no_spaces.begin(), input_no_spaces.end(), ::isspace), input_no_spaces.end());
     input_new = input_no_spaces;
@@ -707,9 +811,21 @@ std::string input2nbfile(const std::string& input) {
 	for (const auto& pair : j["nb_file_mapping"].items()) {
         model_mapping.insert(std::make_pair(pair.key(), pair.value()));
     }
-#else
+#elif _WIN32
+	std::wstring jsonFilePath_utf16 = utf8_to_utf16(tool_folder_json_path);
+	std::string fileContent = readUtf16File(jsonFilePath_utf16);
+    json j = json::parse(fileContent);
 	std::unordered_map<std::string, std::string> model_mapping = j["nb_file_mapping"].get<std::unordered_map<std::string, std::string>>();
+#else
+// Read the JSON file
+    std::ifstream inFile(tool_folder_json_path);
+    if (!inFile.is_open()) {
+        throw std::runtime_error("3 Unable to open JSON file: " + tool_folder_json_path);
+    }
 
+    json j;
+    inFile >> j;
+	std::unordered_map<std::string, std::string> model_mapping = j["nb_file_mapping"].get<std::unordered_map<std::string, std::string>>();
 #endif
 
     // Convert input string to lowercase for case-insensitive comparison
