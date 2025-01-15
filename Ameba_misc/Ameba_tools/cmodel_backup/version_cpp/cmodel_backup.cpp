@@ -48,7 +48,7 @@ strip cmodel_backup_macos
 #undef isinf
 #include "json.hpp"
 
-#define PRINT_DEBUG         1
+#define PRINT_DEBUG         0
 #define MAX_PATH_LENGTH     1024
 #define BUFFER_SIZE 		4096
 
