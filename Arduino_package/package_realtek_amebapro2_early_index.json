@@ -581,22 +581,22 @@
               "host": "i686-mingw32",
               "archiveFileName": "ameba_pro2_tools_windows-1.4.0.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_windows-1.4.0.tar.gz",
-              "checksum": "SHA-256:c504fe644d1a1b06891fddce2752185cb7adee26e0734d97823b748317ff1eeb",
-              "size": "10103278"
+              "checksum": "SHA-256:6bdb8c33e60873627ba89954a1ef1779b6f745a2634bd195bf8f507e46d1c275",
+              "size": "10103258"
             },
             {
               "host": "x86_64-pc-linux-gnu",
               "archiveFileName": "ameba_pro2_tools_linux-1.4.0.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_linux-1.4.0.tar.gz",
-              "checksum": "SHA-256:f73c66c6dea8900f47e15547276ce41d11a8868e6961c549f35f63947a544330",
+              "checksum": "SHA-256:34a165de225e10eac603f3c3f05f11fc2e06f72f9ee314ee002131587bc7b966",
               "size": "13630972"
             },
             {
               "host": "x86_64-apple-darwin",
               "archiveFileName": "ameba_pro2_tools_macos-1.4.0.tar.gz",
               "url": "https://github.com/pammyleong/Arduino_SDK_test/raw/main/Arduino_package/release/ameba_pro2_tools_macos-1.4.0.tar.gz",
-              "checksum": "SHA-256:8827acc0e747bdc8d7395a2cf35b8357403e19551519e114c1e6f1d53139778b",
-              "size": "12367122"
+              "checksum": "SHA-256:62cc41b522bb3a5d1fefeead20656d5939ab2a94b0a57c63f6daa6fd91356abf",
+              "size": "12367178"
             }
           ]
         },

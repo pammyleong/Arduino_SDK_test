@@ -1443,13 +1443,15 @@ void backupModel(const std::string &path) {
 							if (filetonb[i] != "NA") {
 								for (const auto& file : filetonb) {
 									if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] [Info] file:  " << file << " in " << dir_example << std::endl;
-									if (file == fileName_utf8) {
+									if (file == filetonb[i]) {
 										found = true;
 										break;
 									}
 								}
 							}
-
+							if (PRINT_DEBUG) std::cout << "----" << std::endl;
+							if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] [Info] found:  " << found << std::endl;
+							if (PRINT_DEBUG) std::cout << "----" << std::endl;	
 							if (found) {
 								if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "] [Info] Found customized model:  " << fileName_utf8 << " in " << dir_example << std::endl;
 								modelRenameBackup(fileName_utf8, dir_example);
