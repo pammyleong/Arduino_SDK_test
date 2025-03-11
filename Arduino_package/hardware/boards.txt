@@ -1,4 +1,4 @@
-menu.EraseFlash=* Erase All Flash Memory (16MB)
+menu.EraseFlash=* Erase All Flash Memory (16MB
 menu.AutoUploadMode=* Auto Flash Mode
 menu.StdLibInit=* Standard Lib
 menu.UploadBaudrate=* Upload Speed
