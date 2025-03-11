@@ -8,7 +8,6 @@
 #include "BLEBeacon.h"
 
 iBeacon beacon;
-// altBeacon beacon;
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
