@@ -26,7 +26,7 @@ For all `release` information, please visit this [link](https://github.com/ambio
     
     **"File" -> "Preferences" -> "Additional Boards Manager URLs:"**
 
-    Copy and paste the following link into the field and click "OK",
+    Copy and paste the following link into the field and click "OK"
 
     https://github.com/ambiot/ambpro2_arduino/raw/main/Arduino_package/package_realtek.com_amebapro2_index.json
 
