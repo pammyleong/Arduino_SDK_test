@@ -208,7 +208,6 @@ int main(int argc, char* argv[]) {
 	strcpy(path_txtfile, argv[2]);
 	strcat(path_txtfile, path_txtfile_add);
 	strcpy(model_select_src, model_src);
-
 #if PRINT_DEBUG
 	// Print the input parameters 
 	printf("Parameter 1      = %s\n", path_build);

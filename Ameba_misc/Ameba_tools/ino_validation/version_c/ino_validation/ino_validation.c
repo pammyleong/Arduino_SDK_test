@@ -39,7 +39,7 @@
 #include "cJSON.h"
 #include <locale.h>
 
-#define PRINT_DEBUG         1
+#define PRINT_DEBUG         0
 #define MAX_PATH_LENGTH     1024
 
 // -------------------------------
@@ -105,7 +105,6 @@ const char* key_amb_bypassVOE1 = " .configVideoChannel";
 const char* key_amb_bypassVOE2 = " configVideoChannel";
 const char* key_amb_header = "#include";
 const char* key_amb_customized = "CUSTOMIZED";
-const char* key_amb_default = "DEFAULT";
 const char* key_json = "build";
 const char* key_amb = "Arduino15";
 const char* key_portable = "portable";
@@ -741,13 +740,7 @@ int writeTXT(const char* path) {
 	char model_name_fd[MAX_PATH_LENGTH] = "";
 	char model_name_fr[MAX_PATH_LENGTH] = "";
 	char model_name_ac[MAX_PATH_LENGTH] = "";
-	char model_name_ac2[MAX_PATH_LENGTH] = "";
 	char model_name_ic[MAX_PATH_LENGTH] = "";
-	char model_od_customized_default[MAX_PATH_LENGTH] = "";
-	char model_fd_customized_default[MAX_PATH_LENGTH] = "";
-	char model_fr_customized_default[MAX_PATH_LENGTH] = "";
-	char model_ac_customized_default[MAX_PATH_LENGTH] = "";
-	char model_ic_customized_default[MAX_PATH_LENGTH] = "";
 	char header_od[MAX_PATH_LENGTH] = "NA";
 	char header_fd[MAX_PATH_LENGTH] = "NA";
 	char header_fr[MAX_PATH_LENGTH] = "NA";
@@ -838,7 +831,6 @@ int writeTXT(const char* path) {
 			if (strstr(line, key_amb_NN) != NULL && strstr(line, "//") == NULL && strstr(line, key_amb_bypassNN1) == NULL && strstr(line, key_amb_bypassNN2) == NULL) {
 				extractParam(line, param);
 				if (PRINT_DEBUG) printf("[%d] Extracted parameter: %s\n", __LINE__, param);
-				if (PRINT_DEBUG) printf("[%d] model_ac: %s\n", __LINE__, model_name_ac);
 				token = strtok(param, ", ");
 
 				if (token != NULL) {
@@ -858,7 +850,6 @@ int writeTXT(const char* path) {
 						}
 						// check customized od model
 						if (strstr(token, key_amb_customized) != NULL) {
-							strcpy(model_od_customized_default, key_amb_customized);
 							if (PRINT_DEBUG) printf("[%d] od key_amb_customized\n", __LINE__);
 							if (PRINT_DEBUG) printf("[%d] customized od: %s\n", __LINE__, input2model(token));
 							if (PRINT_DEBUG) printf("[%d] path example %s\r\n", __LINE__, path_example);
@@ -911,23 +902,9 @@ int writeTXT(const char* path) {
 									goto error_customized_mismatch;
 								}
 							}
-				}
-						else {
-							strcpy(model_od_customized_default, key_amb_default);
 						}
 					}
-					//strcpy(model_name_od, token);
-					if (PRINT_DEBUG) printf("[%d] Model Name OD: %s\n", __LINE__, model_name_od);
-					if (PRINT_DEBUG) printf("[%d] Token OD: %s\n", __LINE__, token);
-
-					if (strcmp(token, "NA_MODEL") == 0 && strcmp(model_name_od, "NA_MODEL") != 0) {
-						strcpy(model_name_od, model_name_od);
-					}
-					else {
-						strcpy(model_name_od, token);
-					}
-
-					if (PRINT_DEBUG) printf("[%d] After Model Name OD: %s\n", __LINE__, model_name_od);
+					strcpy(model_name_od, token);
 
 					/* ----------------- face detection -----------------*/
 					token = strtok(NULL, ", ");
@@ -941,7 +918,6 @@ int writeTXT(const char* path) {
 						}
 						// check customized FD model
 						if (strstr(token, key_amb_customized) != NULL) {
-							strcpy(model_fd_customized_default, key_amb_customized);
 #if PRINT_DEBUG
 							printf("[%d]fd key_amb_customized\n", __LINE__);
 							printf("[%d]customized fd: %s\n", __LINE__, input2model(token));
@@ -995,23 +971,9 @@ int writeTXT(const char* path) {
 									goto error_customized_mismatch;
 								}
 							}
-						} 
-						else {
-							strcpy(model_fd_customized_default, key_amb_default);
-						}
-						if (PRINT_DEBUG) printf("[%d] Model Name FD: %s\n", __LINE__, model_name_fd);
-						if (PRINT_DEBUG) printf("[%d] Token FD: %s\n", __LINE__, token);
-
-						if (strcmp(token, "NA_MODEL") == 0 && strcmp(model_name_fd, "NA_MODEL") != 0) {
-							strcpy(model_name_fd, model_name_fd);
-						}
-						else {
-							strcpy(model_name_fd, token);
 						}
 
-						if (PRINT_DEBUG) printf("[%d] After Model Name FD: %s\n", __LINE__, model_name_fd);
-						
-						//strcpy(model_name_fd, token);
+						strcpy(model_name_fd, token);
 
 						/*-------------- face recognition --------------*/
 						token = strtok(NULL, ", ");
@@ -1027,7 +989,6 @@ int writeTXT(const char* path) {
 
 							// check customized FR model
 							if (strstr(token, key_amb_customized) != NULL) {
-								strcpy(model_fr_customized_default, key_amb_customized);
 								if (PRINT_DEBUG) printf("[%d]fr key_amb_customized\n", __LINE__);
 								if (PRINT_DEBUG) printf("[%d]customized fr: %s\n", __LINE__, input2model(token));
 								if (PRINT_DEBUG) printf("[%d]path_example: %s\n", __LINE__, path_example);
@@ -1077,33 +1038,22 @@ int writeTXT(const char* path) {
 									}
 								}
 							}
-							else {
-								strcpy(model_fr_customized_default, key_amb_default);
-							}
 							if (token != NULL) {
-								//strcpy(model_name_fr, token);
-								if (strcmp(token, "NA_MODEL") == 0 && strcmp(model_name_fr, "NA_MODEL") != 0) {
-									strcpy(model_name_fr, model_name_fr);
-								}
-								else {
-									strcpy(model_name_fr, token);
-								}
+								strcpy(model_name_fr, token);
+
 								/*-------------- audio classification --------------*/
 								token = strtok(NULL, ", ");
 								if (PRINT_DEBUG) printf("[%d] Param 4: %s\n", __LINE__, token);
-								if (PRINT_DEBUG) printf("[%d] model_ac: %s\n", __LINE__, model_name_ac);
+
 								if (token != NULL) {
 									// AUDIO_CLASSIFICATION(AC) example: check model combination rules
 									if (strcmp(model_type, "AUDIO_CLASSIFICATION") == 0) {
-										if (strcmp(model_select_src, "LoadFromFlash") == 0) {
-											if (strcmp(model_name_od, "NA_MODEL") == 0 && strstr(model_name_fd, "NA_MODEL") == NULL && strcmp(model_name_fr, "NA_MODEL") == 0) {
-												goto error_exceed;
-											}
+										if (strcmp(model_name_od, "NA_MODEL") == 0 && strstr(model_name_fd, "NA_MODEL") == NULL && strcmp(model_name_fr, "NA_MODEL") == 0) {
+											goto error_exceed;
 										}
 									}
 									// check customized AC model
 									if (strstr(token, key_amb_customized) != NULL) {
-										strcpy(model_ac_customized_default, key_amb_customized);
 										if (PRINT_DEBUG) printf("[%d] ac key_amb_customized\n", __LINE__);
 										if (PRINT_DEBUG) printf("[%d] customized ac: %s\n", __LINE__, input2model(token));
 										if (PRINT_DEBUG) printf("[%d] path example %s\r\n", __LINE__, path_example);
@@ -1151,24 +1101,9 @@ int writeTXT(const char* path) {
 											}
 										}
 									}
-									else {
-										strcpy(model_ac_customized_default, key_amb_default);
-									}
 								}
-								else { 
-									token = "NA_MODEL"; 
-								} 
-								if (PRINT_DEBUG) printf("[%d] Model Name AC: %s\n", __LINE__, model_name_ac);
-								if (PRINT_DEBUG) printf("[%d] Token AC: %s\n", __LINE__, token);
-
-								if (strcmp(token, "NA_MODEL") == 0 && strcmp(model_name_ac, "NA_MODEL") != 0) {
-									strcpy(model_name_ac, model_name_ac);
-								}
-								else {
-									strcpy(model_name_ac, token);
-								}
-								
-								if (PRINT_DEBUG) printf("[%d] After Model Name AC: %s\n", __LINE__, model_name_ac2);
+								else { token = "NA_MODEL"; }
+								strcpy(model_name_ac, token);
 
 								/*-------------- image classification --------------*/
 								token = strtok(NULL, ", ");
@@ -1184,7 +1119,6 @@ int writeTXT(const char* path) {
 
 									// check customized IC model
 									if (strstr(token, key_amb_customized) != NULL) {
-										strcpy(model_ic_customized_default, key_amb_customized);
 										if (PRINT_DEBUG) printf("[%d]ic key_amb_customized\n", __LINE__);
 										if (PRINT_DEBUG) printf("[%d]customized ic: %s\n", __LINE__, input2model(token));
 										if (PRINT_DEBUG) printf("[%d]path_example: %s\n", __LINE__, path_example);
@@ -1234,17 +1168,8 @@ int writeTXT(const char* path) {
 											}
 										}
 									}
-									else {
-										strcpy(model_ic_customized_default, key_amb_default);
-									}
 									if (token != NULL) {
-										//strcpy(model_name_ic, token);
-										if (strcmp(token, "NA_MODEL") == 0 && strcmp(model_name_ic, "NA_MODEL") != 0) {
-											strcpy(model_name_ic, model_name_ic);
-										}
-										else {
-											strcpy(model_name_ic, token);
-										}
+										strcpy(model_name_ic, token);
 									}
 								}
 							}
@@ -1314,6 +1239,7 @@ int writeTXT(const char* path) {
 	if (PRINT_DEBUG) printf("[%d] Model Name IC: %s\n", __LINE__, input2model(model_name_ic));
 	if (PRINT_DEBUG) printf("-------------------------------------\n");
 
+
 	// ------------------------- update TXT -------------------------
 	updateTXT("----------------------------------");
 	updateTXT("Current ino contains model(s):");
@@ -1331,60 +1257,6 @@ int writeTXT(const char* path) {
 		updateTXT(input2model(model_name_ic));
 	}
 
-	if (PRINT_DEBUG) printf("[%d] Model Name OD: %s\n", __LINE__, model_name_od);
-	if (PRINT_DEBUG) printf("[%d] Model Name FD: %s\n", __LINE__, model_name_fd);
-	if (PRINT_DEBUG) printf("[%d] Model Name FR: %s\n", __LINE__, model_name_fr);
-	if (PRINT_DEBUG) printf("[%d] Model Name AC: %s\n", __LINE__, model_name_ac);
-	if (PRINT_DEBUG) printf("[%d] Model Name IC: %s\n", __LINE__, model_name_ic);
-	if (PRINT_DEBUG) printf("-------------------------------------\n");
-	updateTXT("----------------------------------");
-	updateTXT("Current model(s)(Default/Customized)");
-	// OD
-	if (strlen(model_name_od) != 0) {
-		if (PRINT_DEBUG) printf("[%d] Model Name OD: %s\n", __LINE__, model_name_od);
-			updateTXT(model_od_customized_default);
-	}
-	else {
-		updateTXT("NA");
-	}
-	// FD
-	if (strlen(model_name_fd) != 0) {
-			updateTXT(model_fd_customized_default);
-	}
-	else {
-		updateTXT("NA");
-	}
-
-	// FR
-	if (strlen(model_name_fr) != 0){
-		if (PRINT_DEBUG) printf("[%d] Model Name FR: %s\n", __LINE__, model_name_fr);
-		updateTXT(model_fr_customized_default);
-	}
-	else {
-		updateTXT("NA");
-	}
-
-	// AC
-	if (strlen(model_name_ac) != 0) {
-		updateTXT(model_ac_customized_default);
-	}
-	else {
-		updateTXT("NA");
-	}
-
-	// IC
-	if (strlen(model_name_ic) != 0) {
-		if (PRINT_DEBUG) printf("[%d] Model Name IC: %s\n", __LINE__, model_name_ic);
-			updateTXT(model_ic_customized_default);
-	}
-	else if (strlen(model_name_ic) == 0) {
-		updateTXT("NA");
-	}
-	else {
-		updateTXT("NA");
-	}
-	
-	if (PRINT_DEBUG) printf("[%d] Extracted Current model(Default/Customized): %s\n", __LINE__, header_od);
 	updateTXT("-----------------------------------");
 	updateTXT("Current NN header file(s): ");
 
@@ -1395,14 +1267,13 @@ int writeTXT(const char* path) {
 		while (fgets(line, sizeof(line), f_headerNN)) {
 			/* check whether keywordNN in file content */
 			if (strstr(line, key_amb_header) != NULL && strstr(line, "NN") != NULL) {
-				if (PRINT_DEBUG) printf("[%d] Extracted line: %s\n", __LINE__, line);
 				if (strstr(line, "Object") != NULL) {
 					extractString(line, header_od);
 				}
-				if (strstr(line, "FaceDetection") != NULL && strstr(line, "Recognition") == NULL) {
+				if (strstr(line, "FaceDetection") != NULL) {
 					extractString(line, header_fd);
 				}
-				if (strstr(line, "FaceDetectionRecognition") != NULL) {
+				if (strstr(line, "FaceRecognition") != NULL) {
 					extractString(line, header_fr);
 				}
 				if (strstr(line, "Audio") != NULL) {
@@ -1417,7 +1288,7 @@ int writeTXT(const char* path) {
 		if (PRINT_DEBUG) printf("[%d] Extracted FD header: %s\n", __LINE__, header_fd);
 		if (PRINT_DEBUG) printf("[%d] Extracted FR header: %s\n", __LINE__, header_fr);
 		if (PRINT_DEBUG) printf("[%d] Extracted AC header: %s\n", __LINE__, header_ac);
-		if (PRINT_DEBUG) printf("[%d] Extracted IC header: %s\n", __LINE__, header_ic);
+		if (PRINT_DEBUG) printf("[%d] Extracted IC header: %s\n", __LINE__, header_ac);
 		if (PRINT_DEBUG) printf("-------------------------------------\n");
 		fclose(f_headerNN);
 	}
@@ -1476,14 +1347,6 @@ int writeTXT(const char* path) {
 		// update header_all to txt
 		convertToHeaderFiles(header_all);
 	}
-	updateTXT("-------------------------------------");
-	updateTXT("Current NN Model(s) loaded from:");
-	if (strcmp(model_select_src, "LoadFromFlash") == 0) {
-		updateTXT("FLASH");
-	}
-	else {
-		updateTXT("SDCARD");
-	}
 	return 0;
 
 error_combination:
@@ -1513,8 +1376,6 @@ void resetJSON(const char* input) {
 		if (strstr(entry->d_name, ".json") != NULL) {
 			char filepath[MAX_PATH_LENGTH];
 			snprintf(filepath, sizeof(filepath), "%s/%s", input, entry->d_name);
-
-			if (PRINT_DEBUG) printf("[%d] filepath: %s\n", __LINE__, filepath);
 
 			FILE* file = fopen(filepath, "r");
 			if (file == NULL) {

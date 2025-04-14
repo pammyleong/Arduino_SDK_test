@@ -277,17 +277,12 @@ int NNTaskCount (const std::string& jsonFilePath) {
 	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
 	std::string fileContent = readUtf16File(jsonFilePath_utf16);
 
-	 // Access "modelCount" -> "COUNT"
 	if (!fileContent.empty()) {
         try {
-            // Parse JSON
             json j = json::parse(fileContent);
-
-            // Access "modelCount" -> "COUNT"
             if (j.contains("NNTasks") && j["NNTasks"].contains("COUNT")) {
                 std::string count_str = j["NNTasks"]["COUNT"];
 
-                // Ensure the string is valid for conversion to integer
                 if (!count_str.empty()) {
                     try {
                         // Convert to integer
@@ -300,7 +295,6 @@ int NNTaskCount (const std::string& jsonFilePath) {
                 }
             }
 
-            // Debug output
             if (PRINT_DEBUG) {
                 std::cout << "[" << __func__ << "][" << __LINE__ << "] NNTasks count: " << count << std::endl;
             }
@@ -309,22 +303,16 @@ int NNTaskCount (const std::string& jsonFilePath) {
         }
     }
 #else
-	// Read the JSON file
     std::ifstream inFile(jsonFilePath);
     if (!inFile.is_open()) {
         throw std::runtime_error("1 Unable to open JSON file: " + jsonFilePath);
     }
 
-    // Parse the JSON file
     json j;
     inFile >> j;
 
-	// Access the "modelCount" key and extract the "COUNT" value as a string
     std::string count_str = j["NNTasks"]["COUNT"].get<std::string>();
-
-    // Convert the string to an integer
-	count = std::stoi(count_str);  // Converts the string to an integer
-
+	count = std::stoi(count_str);
 	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] NNTasks count :" << count << std::endl;
 #endif
     return count;
@@ -336,20 +324,14 @@ int modelCount(const std::string& jsonFilePath) {
 	std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
 	std::string fileContent = readUtf16File(jsonFilePath_utf16);
 
-	 // Access "modelCount" -> "COUNT"
 	if (!fileContent.empty()) {
         try {
-            // Parse JSON
             json j = json::parse(fileContent);
-
-            // Access "modelCount" -> "COUNT"
             if (j.contains("modelCount") && j["modelCount"].contains("COUNT")) {
                 std::string count_str = j["modelCount"]["COUNT"];
 
-                // Ensure the string is valid for conversion to integer
                 if (!count_str.empty()) {
                     try {
-                        // Convert to integer
                         count = std::stoi(count_str);
                     } catch (const std::invalid_argument& e) {
                         std::cerr << "Invalid argument: could not convert to integer: " << count_str << std::endl;
@@ -359,7 +341,6 @@ int modelCount(const std::string& jsonFilePath) {
                 }
             }
 
-            // Debug output
             if (PRINT_DEBUG) {
                 std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count: " << count << std::endl;
             }
@@ -368,21 +349,16 @@ int modelCount(const std::string& jsonFilePath) {
         }
     }
 #else
-	// Read the JSON file
     std::ifstream inFile(jsonFilePath);
     if (!inFile.is_open()) {
         throw std::runtime_error("Unable to open JSON file: " + jsonFilePath);
     }
 
-    // Parse the JSON file
     json j;
     inFile >> j;
 
-	// Access the "modelCount" key and extract the "COUNT" value as a string
     std::string count_str = j["modelCount"]["COUNT"].get<std::string>();
-
-    // Convert the string to an integer
-	count = std::stoi(count_str);  // Converts the string to an integer
+	count = std::stoi(count_str);
 
 	if (PRINT_DEBUG) std::cout << "[" << __func__ << "][" << __LINE__ << "] Model count :" << count << std::endl;
 #endif
@@ -1348,6 +1324,18 @@ void backupModel(const std::string &path) {
 	example_file_path = getIDEFilePath(path);
 	if (PRINT_DEBUG) std::cout << "[" << __LINE__ << "][INFO] path_example: \"" << example_file_path << "\"" << std::endl;
 
+#ifdef _WIN32
+    std::wstring jsonFilePath_utf16 = utf8_to_utf16(jsonFilePath);
+    std::string fileContent = readUtf16File(jsonFilePath_utf16);
+    json j = json::parse(fileContent);
+
+	if (!j.contains("modelkeyword") || !j["modelkeyword"].contains("KEYWORD")) {
+        std::cerr << "Invalid JSON structure." << std::endl;
+       	return exit(EXIT_FAILURE);
+    }
+
+    std::vector<std::string> keywords = j["modelkeyword"]["KEYWORD"].get<std::vector<std::string>>();
+#else
 	std::ifstream file(tool_folder_json_path);
     if (!file.is_open()) {
         std::cerr << "Failed to open JSON file." << std::endl;
@@ -1363,6 +1351,7 @@ void backupModel(const std::string &path) {
     }
 
     std::vector<std::string> keywords = j["modelkeyword"]["KEYWORD"].get<std::vector<std::string>>();
+#endif
 
 #ifdef _WIN32
 	std::wstring example_file_path_utf16 = utf8_to_utf16(example_file_path);

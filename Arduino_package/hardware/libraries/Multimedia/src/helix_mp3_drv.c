@@ -27,7 +27,7 @@ static uint8_t dma_txdata[TX_PAGE_SIZE * TX_PAGE_NUM] __attribute__((aligned(0x2
 static uint8_t dma_rxdata[RX_PAGE_SIZE * RX_PAGE_NUM] __attribute__((aligned(0x20)));
 
 
-void audio_play_binary_array(uint8_t *srcbuf, uint32_t len)
+void audio_play_binary_array(uint8_t *srcbuf, uint32_t len, uint8_t _audio_vol)
 {
     uint8_t *inbuf;
     int bytesLeft;
@@ -63,24 +63,27 @@ void audio_play_binary_array(uint8_t *srcbuf, uint32_t len)
             }
 
             if (first_frame) {
-                initialize_audio(frameInfo.samprate);
+                initialize_audio(frameInfo.samprate, _audio_vol);
+                printf("[INFO] sample rate: %d\r\n", frameInfo.samprate);
                 first_frame = 0;
             }
             audio_play_pcm((int16_t *)decodebuf, frameInfo.outputSamps);
         } else {
-            if (ret != ERR_MP3_INDATA_UNDERFLOW) {
-                printf("[ERROR] %d\r\n", ret);
+            if (ret == ERR_MP3_INDATA_UNDERFLOW) {
+                break;
             }
-            break;
+            // printf("[ERROR] %d\r\n", ret);    // user may uncomment to view decoding error
+            inbuf++;
+            bytesLeft--;
         }
     }
-
+    osDelay(1000);
     audio_deinit(&g_taudio);
-    printf("audio deinitialized\r\n");
-    printf("decoding finished\r\n");
+    printf("[INFO] audio deinitialized\r\n");
+    printf("[INFO] decoding finished\r\n");
 }
 
-void initialize_audio(int sample_rate)
+void initialize_audio(int sample_rate, uint8_t digital_vol)
 {
     uint8_t smpl_rate_idx = ASR_16KHZ;
     // audio_sr smpl_rate_idx = ASR_16KHZ;
@@ -91,6 +94,9 @@ void initialize_audio(int sample_rate)
             break;
         case 16000:
             smpl_rate_idx = ASR_16KHZ;
+            break;
+        case 24000:
+            smpl_rate_idx = ASR_24KHZ;
             break;
         case 32000:
             smpl_rate_idx = ASR_32KHZ;
@@ -112,7 +118,7 @@ void initialize_audio(int sample_rate)
     }
 
     audio_init(&g_taudio, OUTPUT_SINGLE_EDNED, MIC_SINGLE_EDNED, AUDIO_CODEC_2p8V);
-    audio_dac_digital_vol(&g_taudio, 0xAF / 2);
+    audio_dac_digital_vol(&g_taudio, digital_vol);
 
     // Init TX dma
 
